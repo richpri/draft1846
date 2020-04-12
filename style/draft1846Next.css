@@ -1,0 +1,56 @@
+/*  
+ *  Document   : draft1846Next
+ *  Author     : Rich Price
+ *  Description: CSS Document for draft1846Start.php page.
+ *
+ * Copyright (c) 2020 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
+ */
+
+.content {
+  background: #ffeedd;
+  border: 3px solid #73AD21;
+  margin: 20px;
+  padding: 10px;
+}
+
+#draftrpt {
+  padding: 5px; 
+  padding-left: 30px;
+  text-align: center;
+}
+
+#draftturn {
+  padding: 5px; 
+  padding-left: 30px;
+  text-align: center;
+  display: none;
+}
+
+#draftform {
+  padding: 5px; 
+  padding-left: 30px;
+  text-align: center;
+  display: none;
+}
+
+#rptlist {
+  padding: 5px; 
+  padding-left: 30px;
+  margin-left: 2.0in;
+}
+
+table, th, td {
+  padding: 10px;
+  border: 1px solid black; 
+  border-collapse: collapse;
+}  
+
+.error {
+  color: red !important;
+}
+
+.reg {}
+
+
+

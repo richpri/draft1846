@@ -1,0 +1,71 @@
+/* 
+ *  Document   : draft1846Com
+ *  Author     : Rich Price
+ *  Description: Common CSS Document for all draft1846 page.
+ *
+ * Copyright (c) 2019 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
+ */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+#topofpage {
+  background-color:#ffeedd;
+  position:fixed;
+  left:0px;
+  top:0px;
+  width:8.5in;
+  height:90px;
+
+ }
+
+#logo {
+  position: absolute;
+  left:5px;
+  top:0px;
+  height:90px;
+  width:75px;
+}
+
+#heading {
+  position: absolute;
+  left:85px;
+  top:0px;
+  color:#006600;
+  width:auto;
+}
+
+#heading > h1 {
+  margin:0;
+  position:relative;
+  left:10px;
+  top:5px;
+  font-size: x-large;
+}
+
+#lognote {
+  position:absolute;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  left:100px;
+  top:50px;
+  font-size: large;
+}
+
+#restofpage {
+  background-color:#ddffdd;
+  position:fixed;
+  left:0px;
+  width:8.5in;
+  top:90px;
+}
+
+.pwbutton {
+	margin-left: 10px;	
+}

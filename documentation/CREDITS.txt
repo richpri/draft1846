@@ -1,0 +1,5 @@
+This application was inspired by the 
+"1846 Starter" application written 
+by Jeff VanDorp. Thanks Jeff!
+
+

@@ -1,0 +1,48 @@
+/*  
+ *  Document   : draft1846Cfrm
+ *  Author     : Rich Price
+ *  Description: CSS Document for draft1846Cfrm.php page.
+ *
+ * Copyright (c) 2020 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
+ */
+
+#content {
+  background: #ffeedd;
+  border: 3px solid #73AD21;
+  margin: 20px;
+  padding: 10px;
+}
+
+#did {
+  padding: 5px; 
+  padding-left: 30px;
+}
+
+#done {
+  padding: 5px; 
+  padding-left: 30px;
+  font-weight: bold;
+  display: none;
+}
+
+#next {
+  padding: 5px; 
+  padding-left: 30px;
+  font-weight: bold;
+  display: none;
+}
+
+#cfrm {
+  padding: 5px; 
+  padding-left: 30px;
+  font-weight: bold;
+  display: none;
+}
+
+#cfrmlist {
+  padding: 5px; 
+  padding-left: 30px;
+  margin-left: 2.5in;
+}
+

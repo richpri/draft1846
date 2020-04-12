@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<!--
+The index.html page is the introductory page to draft1846 and 
+contains a welcome message. It should be used to start a new 
+private draft.
+
+Copyright (c) 2019 Richard E. Price under the The MIT License.
+A copy of this license can be found in the LICENSE.text file.
+
+-->
+  <head>
+    <meta charset="utf-8" />
+    <title>DRAFT1846 - Private Company Draft Tool For 1846 Games</title>
+    <link rel="shortcut icon" href="images/favicon.ico" >
+    <link rel="stylesheet" href="style/draft1846Com.css" />
+    <link rel="stylesheet" href="style/draft1846Index.css" />
+    <script type="text/javascript" src="scripts/jquery.js">
+    </script> 
+    <script type="text/javascript" src="scripts/draft1846Com.js">
+    </script>
+    <script>
+      $(function() {
+        $('.error').hide(); 
+        $("#button1").click(function(){
+          var pnumb = $("#players").val();
+          var start = "draft1846Start.php?players=";
+          start = start+pnumb;
+          window.location = start;
+          return false;          
+        }); // end start button click
+      });
+    </script>
+  </head>
+  <body>
+    
+    <div id="topofpage">
+      <div id="logo">
+        <img src="images/logo.png" alt="Logo"/> 
+      </div>
+      <div id="heading">
+        <h1>DRAFT1846</h1>
+        <h1>The Private Company Draft Tool For 1846 Games</h1>
+      </div>
+      <div>
+        <p id="lognote"></p>
+      </div>
+    </div>
+    
+    <div id="restofpage"> 
+      <div id="content" style="padding-right: 20px">    
+        <p style="font-size: 130%"><b>Welcome to DRAFT1846.</b>
+        </p>
+        <p>DRAFT1846 is a utility for online 1846 games. 
+          This utility mediates the private company draft phase of 1846. 
+          It was written to be used with BOARD18 but it should be 
+          usable with any Play By Email game.         
+        </p>
+        <p><b>DRAFT1846 uses 
+          email messages to pass control from player to player.</b>
+        </p>
+        <p>
+          The next page displays a form in to which the names and
+          email addresses of the players should be entered. 
+          For less than 5 players, it also displays a selection box  
+          which should be used to indicate the unused privates. 
+        </p>
+        <p>
+          After you have adjusted the number of players, if necessary, 
+          please press the "Start the draft setup" button to continue to 
+          the next page. 
+        </p>
+        <p>
+          After providing the information on
+          the next page, please press "enter". This will cause 
+          DRAFT1846 to validate the entries and create a database 
+          table entry for this draft. It will then send an email to each 
+          player to verify the entered email addresses. When all players 
+          have replied to these emails, the draft will be started.
+        </p>
+        <p style="color: red">
+          PLEASE NOTE: The private draft in 1846 occurs in reverse
+          player order. But the players should be entered on the form on
+          the next page <b>in the same order</b> that they are entered on
+          the spreadsheet, that is in the normal game order. DRAFT1846 
+          will take care of reversing this order in the draft.
+        </p>
+      </div>
+      <div id="forms">
+        <form name="form1" action="" >
+            <label for="players">Number of Players [3 to 5]: </label>
+            <input type="number" name="players" id="players"
+                   value="4" min="3" max="5">
+            <input type="button" name="pwbutton" class="pwbutton" 
+                   id="button1" value="Start the draft setup." >
+        </form>
+      </div> 
+    </div> 
+  </body>
+</html>
+

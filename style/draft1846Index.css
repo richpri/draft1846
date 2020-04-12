@@ -1,0 +1,30 @@
+/*  
+ *  Document   : draft1846Index
+ *  Author     : Rich Price
+ *  Description: CSS Document for index.html page.
+ *
+ * Copyright (c) 2019 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
+ */
+
+#content {
+  background-color:#ffeedd;
+  border: 3px solid #73AD21;
+  margin: 20px;
+  padding: 10px;
+}
+
+#forms {
+  background-color:#ffeedd;
+  border: 3px solid #73AD21;
+  margin: 20px;
+  padding: 20px;
+}
+
+
+
+.error {
+  color: red !important;
+}
+
+.reg {}

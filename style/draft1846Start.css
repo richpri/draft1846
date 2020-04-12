@@ -1,0 +1,45 @@
+/*  
+ *  Document   : draft1846Start
+ *  Author     : Rich Price
+ *  Description: CSS Document for draft1846Start.php page.
+ *
+ * Copyright (c) 2019 Richard E. Price under the The MIT License.
+ * A copy of this license can be found in the LICENSE.text file.
+ */
+
+.content {
+  background: #ffeedd;
+  border: 3px solid #73AD21;
+  margin: 20px;
+  padding: 10px;
+}
+
+#privatecount {
+  margin: 10px 0px;
+  padding: 0px;
+  font-size: large;
+}
+
+.container {
+  padding: 10px;
+  font-size: large;
+}
+
+.fn1 {
+  width: 150px;
+}
+
+.fn2 {
+  width: 250px;
+}
+
+.pwbutton {
+  margin: 0px 30px;
+}
+
+.error {
+  color: red !important;
+}
+
+.reg {}
+

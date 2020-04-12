@@ -1,0 +1,10 @@
+DROP TABLE IF EXISTS draft_table;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE draft_table (
+  draft_id int(11) unsigned NOT NULL AUTO_INCREMENT,
+  draft text,
+  activity_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (draft_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
