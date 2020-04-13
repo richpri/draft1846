@@ -58,7 +58,8 @@ if ($result1) {
   exit;
 }
 
-$subject = '[DRAFT1846] It is your turn in a 1846 draft';
+$subject = '[DRAFT1846] It is your turn in the 1846 draft with ID = ';
+$subject .= $draftid;
 $body = <<<XEOD
 <p>This is a message from the DRAFT1846 server at $server.</p>
 <p>Hello $playername:</p>

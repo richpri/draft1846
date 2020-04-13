@@ -11,8 +11,6 @@
  * them from global variables in other packages. 
  */
 var D1846 = {};
-D1846.noteTimeout = null; // Used by doLogNote().
-D1846.welcomename = null; // Used by doLogNote().
 D1846.version = "0.0.1";
 D1846.deck = [];
 D1846.hand = [];
@@ -20,27 +18,6 @@ D1846.hand = [];
 /* 
  * Utility Functions 
  */
-
-/* Function doLogNote displays a lognote for 30 seconds.
- * A new lognote will replace any previous log note 
- * that has not yet timed out. D1846.noteTimeout is a
- * global variable with an initial value of null.
- */
-function doLogNote(note) {
-  if(D1846.noteTimeout !== null) {
-    clearTimeout(D1846.noteTimeout);
-  }
-  if(D1846.welcomename !== null) {
-    var msg = D1846.welcomename + ": " + note;
-  } else {
-    var msg = note;
-  }
-  $('#lognote').text(msg);
-  D1846.noteTimeout = setTimeout(function() {
-    $('#lognote').text("");
-    D1846.noteTimeout = null;
-  },"20000");
-}
 
 /* 
  * Function fillHand() deals the top cards from

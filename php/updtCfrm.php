@@ -29,12 +29,12 @@ $qry0 = "ROLLBACK";
 $failrtn = array("return" => "fail");
 $failreturn = json_encode($failrtn);
 
-$link = @mysqli_connect(DB_HOST, DB_USER, 
+$link = mysqli_connect(DB_HOST, DB_USER, 
         DB_PASSWORD, DB_DATABASE);
-if (mysqli_connect_error()) {
-  $logMessage = 'updtCfrm: MySQL Connect Error: ' . mysqli_connect_error();
+if ($link === false) {
+  $logMessage = 'updtCfrm: MySQL Connect Error';
   error_log($logMessage);
-  echo $failreturn;
+  echo $failrtn;
   exit;
 }
 

@@ -15,10 +15,8 @@
  */
 
 // Insure that the input parameters are integers.
-// $draftid  = filter_input(INPUT_GET, 'draftid',FILTER_SANITIZE_NUMBER_INT);
-// $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
-$draftid  = 25; // debug
-$playerid =  2; // debug
+$draftid  = filter_input(INPUT_GET, 'draftid',FILTER_SANITIZE_NUMBER_INT);
+$playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
 ?>
 <!doctype html>
 <html lang="en">

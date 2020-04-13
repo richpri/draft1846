@@ -72,9 +72,6 @@ $myplayers = min($myplayer2, 5);
         <h1>DRAFT1846</h1>
         <h1>The Private Company Draft Tool For 1846 Games</h1>
       </div>
-      <div>
-        <p id="lognote"></p>
-      </div>
     </div>
     <div id="restofpage"> 
       <p style="font-size: 130%; padding: 5px; padding-left: 25px;">

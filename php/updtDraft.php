@@ -19,8 +19,8 @@ require_once('config.php');
 
 $link = @mysqli_connect(DB_HOST, DB_USER, 
         DB_PASSWORD, DB_DATABASE);
-if (mysqli_connect_error()) {
-  $logMessage = 'MySQL Error 1: ' . mysqli_connect_error();
+if ($link === false) {
+  $logMessage = 'updtDraft: MySQL Connect Error';
   error_log($logMessage);
   echo "fail";
   exit;

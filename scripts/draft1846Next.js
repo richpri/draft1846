@@ -39,7 +39,7 @@ function getDraftResult(result) {
     return;
   }
   
-  var thisPlayer = D1846.draft.players[D1846.input.playerid].name
+  var thisPlayer = D1846.draft.players[D1846.input.playerid-1].name
   $('#pid').append( thisPlayer).append('.');
   if (D1846.draft.status !== "Active") {
     $('#draftrpt').append('This draft has not yet started.');
@@ -49,21 +49,25 @@ function getDraftResult(result) {
   var curptr, curcash, curcards;
   var rptHTML = '<br><table id="rptlist" >';
   rptHTML+= '<tr><th>Player<br>Name</th><th>Current<br>Player?</th>';
+  rptHTML+= '<th>Player\'s<br>Cash</th>';
   rptHTML+= '<th>Player\'s<br>Privates</th></tr>';
 
   $.each(D1846.draft.players,function(index,listInfo) {
     if ((index +1) === D1846.input.playerid) {
       curptr = 'Yes';
+      curcash = listInfo.cash;
       curcards = '';
       $.each(listInfo.privates,function(pindex,pInfo) { 
         curcards += pInfo + '  ';
       }); // end of each
     } else {
       curptr = '';
+      curcash = '<i>hidden<i>';
       curcards = '<i>hidden<i>';
     }
     rptHTML+= '<tr> <td>' + listInfo.name + '</td><td>';
     rptHTML+= curptr + '</td><td>';
+    rptHTML+= curcash + '</td><td>';
     rptHTML+= curcards + '</td></tr>';
   }); // end of each
   rptHTML+= '</table>';

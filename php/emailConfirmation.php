@@ -58,14 +58,14 @@ if ($result1) {
   exit;
 }
 
-$subject = '[DRAFT1846] Email address verification for 1846 draft ';
+$subject = '[DRAFT1846] Please confirm your email address for draft ID ';
 $subject .= $draftid;
 $body = <<<XEOD
 <p>This is a message from the DRAFT1846 server at $server.</p>
 <p>Hello $playername:</p>
-<p>A new BOARD18 game for 1846 has been created and you are a player in this 
-game. The private company draft for this 1846 game is starting now. 
-This draft is being moderated by the draft1846 draft system. 
+<p>A new play by email game for 1846 has been created and you are a player  
+in this game. The private company draft for this 1846 game is starting now. 
+This draft is being moderated by the DRAFT1846 application. 
 This system is mostly driven by emails.</p>
 <p style='font-weight:bold'>The Draft ID for this draft is $draftid.</p>
 <p>This email has been sent to you so that you can confirm your email address. 
@@ -75,8 +75,4 @@ To do this simply click on the URL below.</p>
 d1846.board18.org/draft1846Cfrm.php</a>
 </p>
 XEOD;
-  echo '<pre>';
-  var_dump($address, $subject, $body);
-  echo '</pre>';
-  exit;
-// sendEmail($address, $subject, $body);
+sendEmail($address, $subject, $body);

@@ -24,8 +24,8 @@ $failreturn = json_encode($failrtn);
 
 $link = @mysqli_connect(DB_HOST, DB_USER, 
         DB_PASSWORD, DB_DATABASE);
-if (mysqli_connect_error()) {
-  $logMessage = 'getDraft: MySQL Connect Error: ' . mysqli_connect_error();
+if ($link === false) {
+  $logMessage = 'getDraft: MySQL Connect Error';
   error_log($logMessage);
   echo $failreturn;
   exit;
@@ -34,8 +34,8 @@ if (mysqli_connect_error()) {
 //Function to sanitize values received from the form. 
 //Prevents SQL injection
 function clean($conn, $str) {
-  $str = @trim($str);
-  return mysqli_real_escape_string($conn, $str);
+  $str1 = trim($str);
+  return mysqli_real_escape_string($conn, $str1);
 }
 
 $draftid = clean($link, $_REQUEST['draftid']);

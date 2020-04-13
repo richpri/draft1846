@@ -26,6 +26,7 @@
  */
 function updateCfrmResult(result) {
   D1846.draft = jQuery.parseJSON(result);
+//  alert(D1846.draft);
   var status = D1846.draft.return;
   if (status === 'fail') {
     var errmsg = 'Confirmation update failed.\n';
@@ -45,13 +46,12 @@ function updateCfrmResult(result) {
      $('#cfrm').show();
   }
 
-  var cfrmHTML= '<br><table id="cfrmlist" >';
-  cfrmHTML+= '<tr><th>Player</th></tr>';
-  cfrmHTML+= '<tr><th>Name</th><th>Confirmed?</th></tr>';
+  var cfrmHTML= '<br><br><table id="cfrmlist" >';
+  cfrmHTML+= '<tr><th>Player<br>Name</th><th>Confirmed?</th></tr>';
   $.each(D1846.draft.players,function(index,listInfo) {
     cfrmHTML+= '<tr> <td class="gameid">';
     cfrmHTML+= listInfo.name + '</td> <td>';
-    cfrmHTML+= listInfo.confirmed + '</td> <td></tr>';
+    cfrmHTML+= listInfo.confirmed + '</td></tr>';
   }); // end of each
   cfrmHTML+= '</table>';
   $("#cfrmlist").remove();

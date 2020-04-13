@@ -1,0 +1,37 @@
+#!/bin/bash
+source $(dirname $0)/config.sh
+# Create a new distribution of DRAFT1846
+cd $D1846Root
+rm -f ~/d1846-$versionNo.zip
+rm -f -r ~/d1846-$versionNo
+mkdir ~/d1846-$versionNo
+mkdir ~/d1846-$versionNo/webroot
+mkdir ~/d1846-$versionNo/webroot/images
+mkdir ~/d1846-$versionNo/webroot/php 
+mkdir ~/d1846-$versionNo/webroot/scripts 
+mkdir ~/d1846-$versionNo/webroot/style
+mkdir ~/d1846-$versionNo/utility
+# mkdir ~/d1846-$versionNo/utility/control
+install -p -t ~/d1846-$versionNo documentation/README.txt
+install -p -t ~/d1846-$versionNo documentation/LICENSE.txt
+install -p -t ~/d1846-$versionNo documentation/CREDITS.txt
+# install -p -t ~/d1846-$versionNo Documentation/INSTALL.txt
+# install -p -t ~/d1846-$versionNo Documentation/ReleaseNotes.txt
+install -p -t ~/d1846-$versionNo/webroot *.html *.php favicon.ico
+# rm ~/d1846-$versionNo/webroot/phpinfo.php
+install -p -t ~/d1846-$versionNo/webroot/php php/*.*
+install -p -t ~/d1846-$versionNo/webroot/scripts scripts/*.*
+install -p -t ~/d1846-$versionNo/webroot/style style/*.*
+install -p -t ~/d1846-$versionNo/webroot/images images/*.*
+# install -p -t ~/d1846-$versionNo/webroot/php templates/webconfig.php
+# rm ~/d1846-$versionNo/webroot/php/config.php
+# mv ~/d1846-$versionNo/webroot/php/webconfig.php ~/d1846-$versionNo/webroot/php/config.php
+# rm ~/d1846-$versionNo/webroot/php/configMail.php
+# install -p -t ~/d1846-$versionNo/webroot/php templates/configMail.php
+install -p -t ~/d1846-$versionNo/utility utility/*
+# install -p -t ~/d1846-$versionNo/utility templates/utilconfig.php
+# rm ~/d1846-$versionNo/utility/config.php
+# mv ~/d1846-$versionNo/utility/utilconfig.php ~/d1846-$versionNo/utility/config.php
+cd ~
+zip -r ~/d1846-$versionNo.zip d1846-$versionNo
+rm -f -r ~/d1846-$versionNo

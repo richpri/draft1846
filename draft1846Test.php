@@ -59,9 +59,6 @@ function nextEmailResult(response) {
         <h1>DRAFT1846</h1>
         <h1>Email test tool</h1>
       </div>
-      <div>
-        <p id="lognote"></p>
-      </div>
     </div>
     <div id="restofpage"> 
       <p style="font-size: 130%; padding: 5px; padding-left: 25px;">

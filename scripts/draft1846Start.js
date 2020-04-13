@@ -84,10 +84,7 @@ function makeDeck() {
     }
 // Shuffle deck.
     shuffle(D1846.deck);
-// Uncheck boxes.
-    $('.boxes:checked').each(function(){
-      $(this).attr('checked', false);
-    });
+
     
   }
 }
@@ -269,7 +266,7 @@ function startupEmailsResult(response) {
     alert(nerrmsg);
   }
   else {
-    if (D1846.firstReply === true){
+    if (D1846.firstReply === true){ // Only do this once.
       D1846.firstReply = false;
       // Clear player fields on form.
       $('.fn1').each(function(i){
@@ -278,7 +275,12 @@ function startupEmailsResult(response) {
       $('.fn2').each(function(i){
         $(this).val("");
       });
-      $('#pwbutton').hide;
+      // Hide "Process Form" button.
+      $('#button1').hide;
+      // Uncheck Private Company boxes.
+      $('.boxes:checked').each(function(){
+        $(this).attr('checked', false);
+      });
     }
   }
 }
