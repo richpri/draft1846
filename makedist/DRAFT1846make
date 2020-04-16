@@ -1,5 +1,9 @@
 #!/bin/bash
-source $(dirname $0)/config.sh
+#
+# Copyright (c) 2020 Richard E. Price under the The MIT License.
+# A copy of this license can be found in the LICENSE.text file.
+#
+source $(dirname $0)/cnfg46.sh
 # Create a new distribution of DRAFT1846
 cd $D1846Root
 rm -f ~/d1846-$versionNo.zip
@@ -24,9 +28,9 @@ install -p -t ~/d1846-$versionNo/webroot/scripts scripts/*.*
 install -p -t ~/d1846-$versionNo/webroot/style style/*.*
 install -p -t ~/d1846-$versionNo/webroot/images images/*.*
 # install -p -t ~/d1846-$versionNo/webroot/php templates/webconfig.php
-# rm ~/d1846-$versionNo/webroot/php/config.php
+rm ~/d1846-$versionNo/webroot/php/config.php
 # mv ~/d1846-$versionNo/webroot/php/webconfig.php ~/d1846-$versionNo/webroot/php/config.php
-# rm ~/d1846-$versionNo/webroot/php/configMail.php
+rm ~/d1846-$versionNo/webroot/php/configMail.php
 # install -p -t ~/d1846-$versionNo/webroot/php templates/configMail.php
 install -p -t ~/d1846-$versionNo/utility utility/*
 # install -p -t ~/d1846-$versionNo/utility templates/utilconfig.php

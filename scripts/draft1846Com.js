@@ -11,9 +11,25 @@
  * them from global variables in other packages. 
  */
 var D1846 = {};
-D1846.version = "0.0.1";
+D1846.version = "0.0.2";
 D1846.deck = [];
 D1846.hand = [];
+D1846.nlist = [];
+D1846.alist = [];
+D1846.prinfo = { 
+  'Blank Card': ['$0', '$0'],
+  'Big 4': ['$40+$60 debt', '$0'],
+  'Chicago and W. Indiana': ['$60', '$10'],
+  'Mail Contract': ['$80', '$0'],
+  'Michigan Southern': ['$60+$80 debt', '$0'],
+  'Lake Shore Line': ['$40', '$15'],
+  'Michigan Central': ['$40', '$15'],
+  'Ohio and Indiana': ['$40', '$15'],
+  'Meat Packing Co.': ['$60', '$15'],
+  'Steamboat Co.': ['$40', '$10'],
+  'Tunnel Blasting Co.': ['$60', '$20']
+};
+
 
 /* 
  * Utility Functions 
@@ -25,25 +41,36 @@ D1846.hand = [];
  * 
  * Deal 2 more cards than the number of players.
  *
- * fillHand() returns FALSE if DD1846.hand is    
- * not empty when the function is called or if
- * D1846.deck is empty when the function is 
- * called.
+ * fillHand() returns FALSE if D1846.deck is 
+ * empty or contains only blank cards when
+ * the function is called.
  */
 function fillHand() {
-  if (D1846.hand.length !== 0) {
-    return false;
-  }
+// Check if there are no cards left.
   if (D1846.deck.length === 0) {
     return false;
   }
-  var aa, i;
-  for (i = 0; i < D1846.playercount+2; i++) {
+// Check if there are only blank cards left.
+  var bb = 'No';
+  for (i=0; i < D1846.deck.length; i++) {
+    if (D1846.deck[i] !== 'Blank Card') {
+      bb = 'Yes';
+      break;
+    }
+  }
+  if (bb === 'No') {
+    return false;
+  }
+
+// fill hand
+  var aa;
+  for (i = 0; i < D1846.draft.numbPlayers+2; i++) {
     aa = D1846.deck.shift();
     if (typeof aa === 'undefined') {
-      return true;
+      break;
+    } else {
+      D1846.hand.push(aa);
     }
-    D1846.hand.push(aa);
   }
   return true;
 }
@@ -52,26 +79,15 @@ function fillHand() {
  * Function emptyHand() coppies all cards from
  * DD1846.hand to the bottom of DD1846.deck. 
  * It then empties DD1846.hand.
- * 
- * emptyHand() returns FALSE if either all of  
- * the remaining cards in DD1846.deck are
- * blank cards or DD1846.deck is empty.
  */
 function emptyHand() {
-  if (D1846.deck.length === 0) {
-    return false;
+
+// Is hand already empty?
+  if (D1846.hand.length === 0) { // Hand already empty?
+    return true;
   }
-  var aa, j;
-  var bb = 'No';
-  for (i=0; i < D1846.deck.length; i++) {
-      if (D1846.deck[i] !== 'Blank Card') {
-      bb = 'Yes';
-      break;
-    }
-  }
-  if (bb === 'No') {
-    return false;
-  }
+
+  var j;
   for (i=0; i < D1846.hand.length; i++) {
     j = D1846.deck.push(D1846.hand[i]);
   }

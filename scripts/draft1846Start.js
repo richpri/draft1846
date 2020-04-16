@@ -84,8 +84,6 @@ function makeDeck() {
     }
 // Shuffle deck.
     shuffle(D1846.deck);
-
-    
   }
 }
 
@@ -268,6 +266,7 @@ function startupEmailsResult(response) {
   else {
     if (D1846.firstReply === true){ // Only do this once.
       D1846.firstReply = false;
+      D1846.dbDone = true;
       // Clear player fields on form.
       $('.fn1').each(function(i){
         $(this).val("");
@@ -276,7 +275,7 @@ function startupEmailsResult(response) {
         $(this).val("");
       });
       // Hide "Process Form" button.
-      $('#button1').hide;
+      $("#button1").hide();
       // Uncheck Private Company boxes.
       $('.boxes:checked').each(function(){
         $(this).attr('checked', false);

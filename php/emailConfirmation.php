@@ -58,6 +58,7 @@ if ($result1) {
   exit;
 }
 
+$linkaddr = SERVER_NAME;
 $subject = '[DRAFT1846] Please confirm your email address for draft ID ';
 $subject .= $draftid;
 $body = <<<XEOD
@@ -71,8 +72,8 @@ This system is mostly driven by emails.</p>
 <p>This email has been sent to you so that you can confirm your email address. 
 To do this simply click on the URL below.</p>
 <p style='font-weight:bold'>
-<a href="https://d1846.board18.org/draft1846Cfrm.php?draftid=$draftid&playerid=$playerid">
-d1846.board18.org/draft1846Cfrm.php</a>
+<a href="$linkaddr/draft1846Cfrm.php?draftid=$draftid&playerid=$playerid">
+$linkaddr/draft1846Cfrm.php?draftid=$draftid&playerid=$playerid</a>
 </p>
 XEOD;
 sendEmail($address, $subject, $body);

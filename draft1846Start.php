@@ -32,6 +32,7 @@ $myplayers = min($myplayer2, 5);
     <script>
       $(function() {
         $('.error').hide();
+        D1846.dbDone = false;
         D1846.playercount = parseInt(<?php echo "$myplayers"; ?>);
         $('#showcount').append(D1846.playercount, ".");
         if (D1846.playercount === 3) {
@@ -55,7 +56,11 @@ $myplayers = min($myplayer2, 5);
           return false;          
         }); // end button1 click
         $("#button2").click(function(){
-          window.location.assign("index.html");
+          if (D1846.dbDone === true) {
+            window.location.assign("draft1846Goodby.html");
+          } else {
+            window.location.assign("index.html");
+          }
           return false;          
         }); // end button2 click   
 
@@ -147,7 +152,7 @@ $myplayers = min($myplayer2, 5);
           <p id="privatecount"> 
             Check the private company to be removed from each group below.
           </p>
-          <fieldset>
+          <fieldset id="privates1">
             <legend>Private Company Group 1</legend>
             <label class="container">Lake Shore Line
               <input type="checkbox" class="boxes" value="Lake Shore Line">
@@ -163,7 +168,7 @@ $myplayers = min($myplayer2, 5);
             </label>
           </fieldset>
           <br>
-          <fieldset>
+          <fieldset id="privates2">
             <legend>Private Company Group 2</legend>
             <label class="container">Meat Packing Co.
               <input type="checkbox" class="boxes" value="Meat Packing Co.">

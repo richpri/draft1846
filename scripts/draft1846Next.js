@@ -12,9 +12,9 @@
 
 /*
  * The getDraftResult function is the call back function for 
- * the ajax calls to getDraft.php. It sets up part of the  
- * draft1846Next page and checks that it is the current 
- * players turn.
+ * the ajax calls to getDraft.php. It checks that it is the  
+ * current players turn and sets up the first part of the  
+ * draft1846Next page.
  *  
  * Output from getDraft.php is ajson encoded array.   
  * The "return" value will be either "success" or "fail". If 
@@ -41,6 +41,12 @@ function getDraftResult(result) {
   
   var thisPlayer = D1846.draft.players[D1846.input.playerid-1].name
   $('#pid').append( thisPlayer).append('.');
+  
+  if (D1846.draft.curPlayer !== D1846.input.playerid) {
+    $('#draftrpt').append('It is not your turn in this draft.');
+    return;
+  }
+  
   if (D1846.draft.status !== "Active") {
     $('#draftrpt').append('This draft has not yet started.');
     return;
@@ -48,10 +54,11 @@ function getDraftResult(result) {
 
   var curptr, curcash, curcards;
   var rptHTML = '<br><table id="rptlist" >';
-  rptHTML+= '<tr><th>Player<br>Name</th><th>Current<br>Player?</th>';
-  rptHTML+= '<th>Player\'s<br>Cash</th>';
+  rptHTML+= '<tr style="background-color: #ddffdd"><th>Player<br>Name</th>';
+  rptHTML+= '<th>Current<br>Player?</th><th>Player\'s<br>Cash</th>';
   rptHTML+= '<th>Player\'s<br>Privates</th></tr>';
-
+  
+// Set up and display player status table.
   $.each(D1846.draft.players,function(index,listInfo) {
     if ((index +1) === D1846.input.playerid) {
       curptr = 'Yes';
@@ -74,9 +81,30 @@ function getDraftResult(result) {
   $("#rptlist").remove();
   $('#draftrpt').append(rptHTML);
 
-  if (D1846.draft.curPlayer !== D1846.input.playerid) {
-    $('#draftturn').append('<b>It is not yet your turn in this draft.</b>');
-    $('#draftturn').show();
-    return;
-  }  
+// Deal the new hand 
+  D1846.deck = D1846.draft.deck;
+  D1846.hand = D1846.draft.hand;
+  emptyHand();
+  if (fillHand() === false) { // draft is over.
+    endOfDraft();
+    return false;
+  } 
+  
+  // Setup actual draft display.
+    var draftHTML = '<br><table id="drftlist" >';
+  draftHTML+= '<tr><th>select</th><th>Private<br>Name</th>';
+  draftHTML+= '<th>Private<br>Costs</th>';
+  draftHTML+= '<th>Private<br>Pays</th></tr>';
+  $.each(D1846.hand,function(index,listInfo) {
+    draftHTML+= '<tr><td>' + 'checkbox' + '</td>';
+    draftHTML+= '<td>' + listInfo.name + '</td><td>';
+    draftHTML+= D1846.prinfo[listInfo.name][1] + '</td><td>';
+    draftHTML+= D1846.prinfo[listInfo.name][1] + '</td></tr>';
+  }); // end of each
+  draftHTML+= '</table>';
+  $("#drftlist").remove();
+  $('#draftturn').append(draftHTML);
+  
 }
+
+function endOfDraft() {alert('End Of Draft.');}

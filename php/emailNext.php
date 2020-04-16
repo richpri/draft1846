@@ -58,6 +58,7 @@ if ($result1) {
   exit;
 }
 
+$linkaddr = SERVER_NAME;
 $subject = '[DRAFT1846] It is your turn in the 1846 draft with ID = ';
 $subject .= $draftid;
 $body = <<<XEOD
@@ -68,8 +69,8 @@ It is your turn in the 1846 draft with the Draft ID of $draftid.</p>
 <p>This draft is being moderated by the draft1846 draft system.</p>
 <p>To take your turn, simply click on the URL below.</p>
 <p style='font-weight:bold'>
-<a href="https://d1846.board18.org/draft1846Next.php?draftid=$draftid&playerid=$playerid">
-d1846.board18.org/draft1846Next.php</a>
+<a href="$linkaddr/draft1846Next.php?draftid=$draftid&playerid=$playerid">
+$linkaddr/draft1846Next.php?draftid=$draftid&playerid=$playerid</a>
 </p>
 XEOD;
 

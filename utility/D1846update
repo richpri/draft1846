@@ -1,0 +1,34 @@
+#!/bin/bash
+#
+# This script will update a draft1846 web site.
+# It will first create a backup of this site.
+# 
+# Before running this script, edit ccntrl46.sh 
+# the three directory paths in control.sh must 
+# be correct or the web site could be damaged.
+#
+# Copyright (c) 2020 Richard E. Price under the The MIT License.
+# A copy of this license can be found in the LICENSE.text file.
+#
+source $(dirname $0)/cntrl46.sh
+
+if ! [ -a ${D1846New:?"Missing source file name"} ]
+then
+  echo "The distribution source, $D1846New, is missing."
+  exit
+fi
+if ! [ -a ${D1846Site:?"Missing site name"} ]
+then
+  echo "$D1846Site cannot be found."
+  exit
+fi
+rm -f -r ${D1846Old:?"Missing backup site name"}
+mkdir $D1846Old
+cp -r $D1846Site/* $D1846Old
+cp $D1846Old/php/config.php $D1846New/php/config.php
+cp $D1846Old/php/configMail.php $D1846New/php/configMail.php
+rm -r $D1846New/images/*
+cp -r $D1846Old/images/* $D1846New/images
+rm -r ${D1846Site:?}/*
+cp -r $D1846New/* $D1846Site
+diff -r -q $D1846Site $D1846Old

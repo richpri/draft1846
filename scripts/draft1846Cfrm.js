@@ -47,7 +47,8 @@ function updateCfrmResult(result) {
   }
 
   var cfrmHTML= '<br><br><table id="cfrmlist" >';
-  cfrmHTML+= '<tr><th>Player<br>Name</th><th>Confirmed?</th></tr>';
+  cfrmHTML+= '<tr style="background-color: #ddffdd">';
+  cfrmHTML+= '<th>Player<br>Name</th><th>Confirmed?</th></tr>';  
   $.each(D1846.draft.players,function(index,listInfo) {
     cfrmHTML+= '<tr> <td class="gameid">';
     cfrmHTML+= listInfo.name + '</td> <td>';
