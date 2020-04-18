@@ -2,7 +2,7 @@
  * This file contains scripts that are common to 
  * all draft1846 web pages.
  *
- * Copyright (c) 2013 Richard E. Price under the The MIT License.
+ * Copyright (c) 2020 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
  */
 
@@ -10,25 +10,24 @@
  * 'master variable' called D1846.  This isolates 
  * them from global variables in other packages. 
  */
-var D1846 = {};
-D1846.version = "0.0.2";
+var D1846 = {}; // The master variable.
 D1846.deck = [];
 D1846.hand = [];
 D1846.nlist = [];
 D1846.alist = [];
-D1846.prinfo = { 
-  'Blank Card': ['$0', '$0'],
-  'Big 4': ['$40+$60 debt', '$0'],
-  'Chicago and W. Indiana': ['$60', '$10'],
-  'Mail Contract': ['$80', '$0'],
-  'Michigan Southern': ['$60+$80 debt', '$0'],
-  'Lake Shore Line': ['$40', '$15'],
-  'Michigan Central': ['$40', '$15'],
-  'Ohio and Indiana': ['$40', '$15'],
-  'Meat Packing Co.': ['$60', '$15'],
-  'Steamboat Co.': ['$40', '$10'],
-  'Tunnel Blasting Co.': ['$60', '$20']
-};
+D1846.prInfo = [ // Private information table.
+  ['Blank Card', '$0', '$0'],
+  ['Big 4', '$40+$60 debt', '$0'],
+  ['Chicago and W. Indiana', '$60', '$10'],
+  ['Mail Contract', '$80', '$0'],
+  ['Michigan Southern', '$60+$80 debt', '$0'],
+  ['Lake Shore Line', '$40', '$15'],
+  ['Michigan Central', '$40', '$15'],
+  ['Ohio and Indiana', '$40', '$15'],
+  ['Meat Packing Co.', '$60', '$15'],
+  ['Steamboat Co.', '$40', '$10'],
+  ['Tunnel Blasting Co.', '$60', '$20']
+];
 
 
 /* 

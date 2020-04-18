@@ -27,15 +27,11 @@ install -p -t ~/d1846-$versionNo/webroot/php php/*.*
 install -p -t ~/d1846-$versionNo/webroot/scripts scripts/*.*
 install -p -t ~/d1846-$versionNo/webroot/style style/*.*
 install -p -t ~/d1846-$versionNo/webroot/images images/*.*
-# install -p -t ~/d1846-$versionNo/webroot/php templates/webconfig.php
 rm ~/d1846-$versionNo/webroot/php/config.php
-# mv ~/d1846-$versionNo/webroot/php/webconfig.php ~/d1846-$versionNo/webroot/php/config.php
 rm ~/d1846-$versionNo/webroot/php/configMail.php
-# install -p -t ~/d1846-$versionNo/webroot/php templates/configMail.php
+rm ~/d1846-$versionNo/webroot/scripts/config.js
+rm ~/d1846-$versionNo/webroot/utility/cntrl46.sh
 install -p -t ~/d1846-$versionNo/utility utility/*
-# install -p -t ~/d1846-$versionNo/utility templates/utilconfig.php
-# rm ~/d1846-$versionNo/utility/config.php
-# mv ~/d1846-$versionNo/utility/utilconfig.php ~/d1846-$versionNo/utility/config.php
 cd ~
 zip -r ~/d1846-$versionNo.zip d1846-$versionNo
 rm -f -r ~/d1846-$versionNo

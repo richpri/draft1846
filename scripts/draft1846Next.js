@@ -42,6 +42,11 @@ function getDraftResult(result) {
   var thisPlayer = D1846.draft.players[D1846.input.playerid-1].name
   $('#pid').append( thisPlayer).append('.');
   
+  if (D1846.draft.status === "Done") { // This draft is over.
+    DraftDone();
+    return;
+  }
+  
   if (D1846.draft.curPlayer !== D1846.input.playerid) {
     $('#draftrpt').append('It is not your turn in this draft.');
     return;
@@ -86,25 +91,40 @@ function getDraftResult(result) {
   D1846.hand = D1846.draft.hand;
   emptyHand();
   if (fillHand() === false) { // draft is over.
-    endOfDraft();
+    // update table record with D1846.draft.status = "Done"
+    DraftDone();
     return false;
   } 
   
   // Setup actual draft display.
-    var draftHTML = '<br><table id="drftlist" >';
-  draftHTML+= '<tr><th>select</th><th>Private<br>Name</th>';
+  var prsel;
+  var privateName;
+  var privateCost;
+  var privatePays;
+  var draftHTML = '<br><table id="drftlist" >';
+  draftHTML+= '<tr style="background-color: #ddffdd">';
+  draftHTML+= '<th>Select</th><th>Private<br>Name</th>';
   draftHTML+= '<th>Private<br>Costs</th>';
   draftHTML+= '<th>Private<br>Pays</th></tr>';
   $.each(D1846.hand,function(index,listInfo) {
-    draftHTML+= '<tr><td>' + 'checkbox' + '</td>';
-    draftHTML+= '<td>' + listInfo.name + '</td><td>';
-    draftHTML+= D1846.prinfo[listInfo.name][1] + '</td><td>';
-    draftHTML+= D1846.prinfo[listInfo.name][1] + '</td></tr>';
+    prsel = 1 + index;
+    for(i=0; i<=10; i++){
+      if (D1846.prInfo[i][0] === listInfo) {
+        privateName = D1846.prInfo[i][0];
+        privateCost = D1846.prInfo[i][1];
+        privatePays = D1846.prInfo[i][2];
+        break;
+      }
+    }
+    draftHTML+= '<tr><td>' + prsel + '</td>';
+    draftHTML+= '<td>' + listInfo + '</td><td>';
+    draftHTML+= privateCost + '</td><td>';
+    draftHTML+= privatePays + '</td></tr>';
   }); // end of each
   draftHTML+= '</table>';
   $("#drftlist").remove();
   $('#draftturn').append(draftHTML);
-  
+  $('#draftturn').show();
 }
 
-function endOfDraft() {alert('End Of Draft.');}
+function DraftDone() {alert('Draft Done.');}

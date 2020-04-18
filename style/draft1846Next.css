@@ -37,7 +37,13 @@
 #rptlist {
   padding: 5px; 
   padding-left: 30px;
-  margin-left: 2.0in;
+  margin-left: 1.1in;
+}
+
+#drftlist {
+  padding: 5px; 
+  padding-left: 30px;
+  margin-left: 1.1in;
 }
 
 table, th, td {
