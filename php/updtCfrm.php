@@ -76,8 +76,8 @@ if ($result1) {
 }
 
 $draftrow = mysqli_fetch_assoc($result2);
-$draftjson = $draftrow["draft"];
-$draftarray = json_decode($draftjson, true);
+$draftjson1 = $draftrow["draft"];
+$draftarray = json_decode($draftjson1, true);
 $draftarray["return"] = "success";
 $draftjson2 = json_encode($draftarray);
 if ($draftarray["status"] === "Active"){ // If the confirmation process is over.
@@ -100,10 +100,10 @@ foreach ($players as $value) { // Are all players confirmed?
 if ($allconfirmed === "Yes") {
   $draftarray["status"] = "Active";
 }
-$draftjson = json_encode($draftarray);
+$draftjson3 = json_encode($draftarray);
 
 //Create UPDATE query
-$qry3 = "UPDATE draft_table SET draft='$draftjson' WHERE draft_id='$draftid'";  
+$qry3 = "UPDATE draft_table SET draft='$draftjson3' WHERE draft_id='$draftid'";  
 $result3 = mysqli_query($link,$qry3);
 if (!$result3) {   // Did the query fail
   error_log("updtCfrm: UPDATE Query failed: general failure");
@@ -119,5 +119,5 @@ if ($draftarray["status"] === "Active") {
   $draftarray["status"] = "Confirmed"; // This causes draft to kickoff.
 }
 
-$draftjson2 = json_encode($draftarray);
-echo $draftjson2;
+$draftjson4 = json_encode($draftarray);
+echo $draftjson4;

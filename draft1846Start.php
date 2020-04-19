@@ -27,6 +27,8 @@ $myplayers = min($myplayer2, 5);
     </script> 
     <script type="text/javascript" src="scripts/draft1846Com.js">
     </script>
+    <script type="text/javascript" src="scripts/draft1846Config.js">
+    </script>
     <script type="text/javascript" src="scripts/draft1846Start.js">
     </script>
     <script>

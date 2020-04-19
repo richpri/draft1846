@@ -26,18 +26,21 @@
  */
 function updateCfrmResult(result) {
   D1846.draft = jQuery.parseJSON(result);
-//  alert(D1846.draft);
-  var status = D1846.draft.return;
-  if (status === 'fail') {
+  var result = D1846.draft.return;
+  if (result === 'fail') {
     var errmsg = 'Confirmation update failed.\n';
-    errmsg += 'Please contact the DRAFT1846 webmaster.';
+    errmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    errmsg += D1846.adminName + '\n';
+    errmsg += D1846.adminEmail;
     alert(errmsg);
     return;
   }
-  else if (status !== 'success') {
+  else if (result !== 'success') {
     // Something is definitly wrong in the code.
     var nerrmsg = 'Invalid return code from emailPlayer.php.\n';
-    nerrmsg += status + '\nPlease contact the DRAFT1846 webmaster.';
+    nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    nerrmsg += D1846.adminName + '\n';
+    nerrmsg += D1846.adminEmail;
     alert(nerrmsg);
     return;
   }
@@ -81,13 +84,17 @@ function updateCfrmResult(result) {
 function nextEmailResult(response) {
   if (response === 'fail') {
     var errmsg = 'Sending an email to a player failed.\n';
-    errmsg += 'Please contact the DRAFT1846 webmaster.';
+    errmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    errmsg += D1846.adminName + '\n';
+    errmsg += D1846.adminEmail;
     alert(errmsg);
   }
   else if (response !== 'success') {
     // Something is definitly wrong in the code.
     var nerrmsg = 'Invalid return code from emailPlayer.php.\n';
-    nerrmsg += response + '\nPlease contact the DRAFT1846 webmaster.';
+    nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    nerrmsg += D1846.adminName + '\n';
+    nerrmsg += D1846.adminEmail;
     alert(nerrmsg);
   }
   else {

@@ -181,6 +181,7 @@ function makeDraftRow() {
   var i;
   D1846.draft = {};
   D1846.draft.status = "Pending";
+  D1846.draft.updtCount = 0;  
   D1846.draft.numbPlayers = D1846.playercount;
   D1846.draft.curPlayer = 1;
   D1846.draft.deck = [];
@@ -217,7 +218,9 @@ function makeDraftRow() {
 function newDraftOK(response) {
   if (response === 0) {
     var errmsg = 'The draft_table row creation failed.\n';
-    errmsg += 'Please contact the DRAFT1846 webmaster.';
+    errmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    errmsg += D1846.adminName + '\n';
+    errmsg += D1846.adminEmail;
     alert(errmsg);
     window.location = 'index.html';
   }
@@ -252,7 +255,9 @@ function startupEmailsResult(response) {
   if (response === 'fail') {
     if (D1846.mailError === false) {
       var errmsg = 'Sending an email to a player failed.\n';
-      errmsg += 'Please contact the DRAFT1846 webmaster.';
+      errmsg += 'Please contact the DRAFT1846 webmaster.\n';
+      errmsg += D1846.adminName + '\n';
+      errmsg += D1846.adminEmail;
       alert(errmsg);
       D1846.mailError = true;
     }
@@ -260,7 +265,9 @@ function startupEmailsResult(response) {
   else if (response !== 'success') {
     // Something is definitly wrong in the code.
     var nerrmsg = 'Invalid return code from emailPlayer.php.\n';
-    nerrmsg += response + '\nPlease contact the DRAFT1846 webmaster.';
+    nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    nerrmsg += D1846.adminName + '\n';
+    nerrmsg += D1846.adminEmail;
     alert(nerrmsg);
   }
   else {

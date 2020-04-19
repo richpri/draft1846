@@ -30,6 +30,8 @@ $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
     </script> 
     <script type="text/javascript" src="scripts/draft1846Com.js">
     </script>
+    <script type="text/javascript" src="scripts/draft1846Config.js">
+    </script>
     <script type="text/javascript" src="scripts/draft1846Next.js">
     </script>
     <script>
@@ -42,22 +44,11 @@ $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
         $('#did').append(D1846.input.draftid).append('.');
         var cString = "draftid=" + D1846.input.draftid;
         $.post("php/getDraft.php", cString, getDraftResult);
-/*        
+       
         $("#button1").click(function(){
-          makePinfo();
-          if (D1846.errtxt === "") {
-            makeDeck();
-          }
-          if (D1846.errtxt === "") {
-            makeDraftRow()
-          }
+          processSelection();
           return false;          
         }); // end button1 click
-        $("#button2").click(function(){
-          window.location.assign("index.html");
-          return false;          
-        }); // end button2 click   
-*/
       });
     </script>
   </head>
@@ -74,20 +65,28 @@ $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
     </div>
     <div id="restofpage"> 
       <div id="content">
-        <p style="font-weight: bold; text-align: center;">
-          <span id="pid">
+        <div style="font-weight: bold; text-align: center;">
+          <p id="pid">
             Hello   
-          </span>
-          <span id="did">
-            <br><br>The draft id for this draft is  
-          </span>
-        </p>
-        <p id="draftrpt">
-        </p>
-        <p id="draftturn">
-        </p>
-        <p id="draftform">
-        </p>
+          </p>
+          <p id="did">
+            The draft id for this draft is  
+          </p>
+        </div>
+        <div id="draftrpt">
+        </div>
+        <div id="draftturn">
+        </div>
+        <div id="draftform">
+          Be sure to select your card before you press enter!<br>
+          <form name="form1" action="" >
+            <label for="cardsel">Select card by number [1 to 5]: </label>
+            <input type="number" name="cardsel" id="cardsel"
+                   value="1" min="1" max="5">
+            <input type="button" name="pwbutton" class="pwbutton" 
+                   id="button1" value="Enter" >
+          </form>
+        </div>
      </div>  
     </div>  
 

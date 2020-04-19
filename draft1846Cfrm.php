@@ -28,6 +28,8 @@ $player  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
     </script> 
     <script type="text/javascript" src="scripts/draft1846Com.js">
     </script> 
+    <script type="text/javascript" src="scripts/draft1846Config.js">
+    </script>
     <script type="text/javascript" src="scripts/draft1846Cfrm.js">
     </script>
     <script>

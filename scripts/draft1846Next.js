@@ -24,17 +24,22 @@
  */
 function getDraftResult(result) {
   D1846.draft = jQuery.parseJSON(result);
-  var status = D1846.draft.return;
-  if (status === 'fail') {
+  D1846.updtCount = D1846.draft.updtCount;
+  var result = D1846.draft.return;
+  if (result === 'fail') {
     var errmsg = 'getDraft.php failed.\n';
-    errmsg += 'Please contact the DRAFT1846 webmaster.';
+    errmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    errmsg += D1846.adminName + '\n';
+    errmsg += D1846.adminEmail;
     alert(errmsg);
     return;
   }
-  else if (status !== 'success') {
+  else if (result !== 'success') {
     // Something is definitly wrong in the code.
     var nerrmsg = 'Invalid return code from getDraft.php.\n';
-    nerrmsg += status + '\nPlease contact the DRAFT1846 webmaster.';
+    nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    nerrmsg += D1846.adminName + '\n';
+    nerrmsg += D1846.adminEmail;
     alert(nerrmsg);
     return;
   }
@@ -92,7 +97,7 @@ function getDraftResult(result) {
   emptyHand();
   if (fillHand() === false) { // draft is over.
     // update table record with D1846.draft.status = "Done"
-    DraftDone();
+    draftDone();
     return false;
   } 
   
@@ -125,6 +130,39 @@ function getDraftResult(result) {
   $("#drftlist").remove();
   $('#draftturn').append(draftHTML);
   $('#draftturn').show();
+  $('#draftform').show();
 }
 
-function DraftDone() {alert('Draft Done.');}
+/*
+ * The processSelection function uses the entered cardsel   
+ * value to update the current player's hand. It then checks  
+ * if the draft has completed.
+ */
+function processSelection() {
+  var cardsel = $("#cardsel").val(); //card that was selected.
+  D1846.hand =D1846.draft.hand.slice();
+  var handIdx = cardsel - 1;
+  var selectArray = D1846.hand.splice(handIdx,1);
+  var selected = selectArray[0];
+  var cost;
+  for(i=0; i<D1846.hand.length; i++){
+    if (D1846.prInfo[i][0] === selected) {
+      cost = D1846.prInfo[i][1];
+      break;
+    }
+  }  
+  var cost1 = cost.split("+");
+  var cost2 = cost1[0].substring(1);
+  var numCost = parseInt(cost2, 10);
+  if(selected === 'Big 4') {numCost = 100;}
+  if(selected === 'Michigan Southern') {numCost = 140;}
+  
+  var dbgmsg = 'In processSelection().\n';
+  dbgmsg += 'Index of selected card = ';
+  dbgmsg += cardsel + '\nName of selected card = ';
+  dbgmsg += selected + '\nCost of selected card = ';
+  dbgmsg += cost + '\nNumeric cost of selected card = ' + numCost;
+    alert(dbgmsg);
+};
+
+function draftDone() {alert('Draft Done.');}
