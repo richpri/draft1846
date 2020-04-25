@@ -7,13 +7,6 @@
  * A copy of this license can be found in the LICENSE.text file.
  */
 
-#content {
-  background: #ffeedd;
-  border: 3px solid #73AD21;
-  margin: 20px;
-  padding: 10px;
-}
-
 #did {
   padding: 5px; 
   padding-left: 30px;
@@ -40,10 +33,16 @@
   display: none;
 }
 
+#confstat {
+  padding: 5px; 
+  padding-left: 30px;
+  font-weight: bold;
+}
+
 #cfrmlist {
   padding: 5px; 
   padding-left: 30px;
-  margin-left: 2.5in;
+  margin-left: 30px;
 }
 
 table, th, td {

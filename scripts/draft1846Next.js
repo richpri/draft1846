@@ -145,7 +145,7 @@ function processSelection() {
   var selectArray = D1846.hand.splice(handIdx,1);
   var selected = selectArray[0];
   var cost;
-  for(i=0; i<D1846.hand.length; i++){
+  for(i=0; i<10; i++){
     if (D1846.prInfo[i][0] === selected) {
       cost = D1846.prInfo[i][1];
       break;
@@ -157,12 +157,61 @@ function processSelection() {
   if(selected === 'Big 4') {numCost = 100;}
   if(selected === 'Michigan Southern') {numCost = 140;}
   
-  var dbgmsg = 'In processSelection().\n';
-  dbgmsg += 'Index of selected card = ';
-  dbgmsg += cardsel + '\nName of selected card = ';
-  dbgmsg += selected + '\nCost of selected card = ';
-  dbgmsg += cost + '\nNumeric cost of selected card = ' + numCost;
-    alert(dbgmsg);
+  D1846.draft.hand =D1846.hand.slice();
+  var playerIndex = D1846.input.playerid - 1;
+  D1846.draft.players[playerIndex].privates.push(selected);
+  var cash = D1846.draft.players[playerIndex].cash;
+  cash -= numCost;
+  D1846.draft.players[playerIndex].cash = cash;
+  
+  var dataString = JSON.stringify(D1846.draft);
+  var cString = "draft_id=" + D1846.draftid;
+  cString += "&draft=" + dataString;
+  $.post("php/updtDraft.php", cString, updateDraftResult);
 };
+
+/*
+ * The updateDraftResult function is the call back function for 
+ * the ajax calls to updateDraft.php. It checks for collisions.
+ * Then I checks if the draft is over. If it is then it calls 
+ * draftDone for each player. Else it sends a draft1846Next 
+ * email to the next player.
+ *  
+ * Output from updateDraft is an echo return status of 
+ * "success", "collision" or "fail". 
+ * 
+ */
+function updateDraftResult(result) {
+  if (result === 'fail') {
+    var errmsg = 'updtDraft.php failed.\n';
+    errmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    errmsg += D1846.adminName + '\n';
+    errmsg += D1846.adminEmail;
+    alert(errmsg);
+    return;
+  }
+  if (result === 'collision') {
+    handleCollision();
+    return;
+  }
+  if (result !== 'success') {
+    // Something is definitly wrong in the code.
+    var nerrmsg = 'Invalid return code from updtDraft.php.\n';
+    nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    nerrmsg += D1846.adminName + '\n';
+    nerrmsg += D1846.adminEmail;
+    alert(nerrmsg);
+    return;
+  }
+  
+  var dbgmsg = 'Just finished DB update.\n';
+  dbgmsg += JSON.stringify(D1846.draft);
+  alert(dbgmsg);
+  
+}
+
+
+function handleCollision() {alert('Collision.');}
+
 
 function draftDone() {alert('Draft Done.');}

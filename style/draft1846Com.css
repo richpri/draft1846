@@ -18,10 +18,29 @@ html, body {
   position:fixed;
   left:0px;
   top:0px;
-  width:8.5in;
+  width:100%;
   height:90px;
-
+  z-index:5;
  }
+
+#restofpage {
+  background-color:#ddffdd;
+  position:fixed;
+  overflow-y:scroll;
+  overflow-x:scroll; 
+  left:0px;
+  width:100%;
+  top:90px;
+  z-index:5;
+}
+
+#content {
+  background: #ffeedd;
+  border: 3px solid #73AD21;
+  margin: 20px;
+  padding: 10px;
+  min-width: 8.0in;
+}
 
 #logo {
   position: absolute;
@@ -47,23 +66,9 @@ html, body {
   font-size: x-large;
 }
 
-#lognote {
-  position:absolute;
-  margin-left: 0px;
-  margin-right: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-  left:100px;
-  top:50px;
-  font-size: large;
-}
-
-#restofpage {
-  background-color:#ddffdd;
-  position:fixed;
-  left:0px;
-  width:8.5in;
-  top:90px;
+#toptext {
+  font-weight: bold;
+  margin-left: 1.5in;
 }
 
 .pwbutton {

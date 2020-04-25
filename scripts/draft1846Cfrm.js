@@ -49,7 +49,7 @@ function updateCfrmResult(result) {
      $('#cfrm').show();
   }
 
-  var cfrmHTML= '<br><br><table id="cfrmlist" >';
+  var cfrmHTML= '<table id="cfrmlist" >';
   cfrmHTML+= '<tr style="background-color: #ddffdd">';
   cfrmHTML+= '<th>Player<br>Name</th><th>Confirmed?</th></tr>';  
   $.each(D1846.draft.players,function(index,listInfo) {
@@ -60,7 +60,7 @@ function updateCfrmResult(result) {
   cfrmHTML+= '</table>';
   $("#cfrmlist").remove();
   $('#confstat').append(D1846.draft.status);
-  $('#confstat').append(cfrmHTML);
+  $('#confbox').append(cfrmHTML);
   
   if (D1846.draft.status === "Active") {
      $('#done').show();

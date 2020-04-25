@@ -85,7 +85,7 @@ $myplayers = min($myplayer2, 5);
         <b>Start new 1846 private company draft</b></p>
       <p id="showcount" style="padding-left: 25px;">
         The number of players is </p>
-      <div class="content"> 
+      <div id="content" style="max-width:9.0in;"> 
         <p class="error" id="emsg">error message</p>
         <form name="setupform" id="setupform" action="">
           <fieldset>

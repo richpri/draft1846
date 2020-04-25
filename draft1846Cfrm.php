@@ -54,23 +54,25 @@ $player  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
     </div>
     <div id="restofpage"> 
       <div id="content">
-        <p style="font-weight: bold; text-align: center;">
-          <span id="did">
+        <div id="toptext">
+            <span id="did">
             The draft id for this draft is  
-          </span>
-        </p>
-        <p id="cfrm" style="text-align: center;">
-          Your Email address has been confirmed.
-        </p>
-        <p id="confstat" style="text-align: center;">
-          The current status of the draft is
-        </p>
-        <p id="done" style="text-align: center;">
-          The draft confirmation process is completed.
-        </p>
-        <p id="next" style="text-align: center;">
-          A next player email has been sent to 
-        </p>
+            </span>
+         
+          <p id="cfrm">
+            Your Email address has been confirmed.
+          </p>
+          <p id="confstat">
+            The current status of the draft is
+          </p>
+          <p id="confbox"></p>
+          <p id="done">
+            The draft confirmation process is completed.
+          </p>
+          <p id="next">
+            A next player email has been sent to 
+          </p>        
+        </div>
       </div>
     </div>
   </body>

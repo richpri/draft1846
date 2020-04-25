@@ -65,7 +65,7 @@ $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
     </div>
     <div id="restofpage"> 
       <div id="content">
-        <div style="font-weight: bold; text-align: center;">
+        <div id="toptext">
           <p id="pid">
             Hello   
           </p>
