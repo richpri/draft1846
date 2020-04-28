@@ -5,7 +5,7 @@
  * AJAX updtDraft call. It updates the specified table 
  * row in the draft_table in the draft1846 database.
  * 
- * Input consists the "draft_id" and the new value 
+ * Input consists the "draftid" and the new value 
  * of "draft" for the table row.
  * 
  * Output is an echo return status of 
@@ -34,7 +34,7 @@ function clean($conn, $str) {
   return mysqli_real_escape_string($conn, $str);
 }
 
-$draftid = clean($link, $_REQUEST['draft_id']);
+$draftid = clean($link, $_REQUEST['draftid']);
 $draftinput = json_decode($_REQUEST['draft'], true);
 
 // Start transaction.
@@ -49,7 +49,7 @@ if (!$result1) {
 //Create SELECT query
 $qry2 = "SELECT * FROM draft_table WHERE draft_id ='$draftid' FOR UPDATE";
 $result2 = mysqli_query($link, $qry2);
-if ($result1) {
+if ($result2) {
   if (mysqli_num_rows($result2) === 0) { // no such draft
     error_log("updtDraft: SELECT Query failed: No draft found!");
     mysqli_query($link, $qry0); // ROLLBACK
@@ -75,6 +75,11 @@ if ($draftarray["updtCount"] !== $draftinput["updtCount"]){
 }
 
 $draftinput["updtCount"] += 1; // Increment update counter
+$draftinput["curPlayer"] += 1; // Increment current player
+if ($draftinput["curPlayer"] > $draftinput["numbPlayers"]) {
+  $draftinput["curPlayer"] = 1; // Handle curPayer wrap
+}
+
 $draftjson3 = json_encode($draftinput);
 
 //Create UPDATE query

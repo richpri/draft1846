@@ -20,9 +20,9 @@ $myplayers = min($myplayer2, 5);
   <head>
     <meta charset="utf-8" />
     <title>DRAFT1846 - Private Company Draft Tool For 1846 Games</title>
-    <link rel="shortcut icon" href="images/favicon.ico" >
-    <link rel="stylesheet" href="style/draft1846Com.css" />
-    <link rel="stylesheet" href="style/draft1846Start.css" />
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="style/draft1846Com.css">
+    <link rel="stylesheet" href="style/draft1846Start.css">
     <script type="text/javascript" src="scripts/jquery.js">
     </script> 
     <script type="text/javascript" src="scripts/draft1846Com.js">
@@ -59,7 +59,7 @@ $myplayers = min($myplayer2, 5);
         }); // end button1 click
         $("#button2").click(function(){
           if (D1846.dbDone === true) {
-            window.location.assign("draft1846Goodby.html");
+            window.location.assign("draft1846Goodby.html?msgtype=1");
           } else {
             window.location.assign("index.html");
           }

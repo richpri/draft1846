@@ -76,7 +76,7 @@ function updateCfrmResult(result) {
  * Function nextEmailsResult is the call back function for the
  * ajax call to emailNext.php. It only needs to check for errors.
  *  
- * Output from emailPlayer.php 
+ * Output from emailNext.php 
  * is an echo return status:
  *   "success" - Email sent.
  *   "fail"    - Uexpected error - This email not sent.

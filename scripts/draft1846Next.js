@@ -52,44 +52,23 @@ function getDraftResult(result) {
     return;
   }
   
-  if (D1846.draft.curPlayer !== D1846.input.playerid) {
-    $('#draftrpt').append('It is not your turn in this draft.');
-    return;
-  }
-  
   if (D1846.draft.status !== "Active") {
     $('#draftrpt').append('This draft has not yet started.');
+    $('#canform').show();
     return;
   }
 
-  var curptr, curcash, curcards;
-  var rptHTML = '<br><table id="rptlist" >';
-  rptHTML+= '<tr style="background-color: #ddffdd"><th>Player<br>Name</th>';
-  rptHTML+= '<th>Current<br>Player?</th><th>Player\'s<br>Cash</th>';
-  rptHTML+= '<th>Player\'s<br>Privates</th></tr>';
-  
 // Set up and display player status table.
-  $.each(D1846.draft.players,function(index,listInfo) {
-    if ((index +1) === D1846.input.playerid) {
-      curptr = 'Yes';
-      curcash = listInfo.cash;
-      curcards = '';
-      $.each(listInfo.privates,function(pindex,pInfo) { 
-        curcards += pInfo + '  ';
-      }); // end of each
-    } else {
-      curptr = '';
-      curcash = '<i>hidden<i>';
-      curcards = '<i>hidden<i>';
-    }
-    rptHTML+= '<tr> <td>' + listInfo.name + '</td><td>';
-    rptHTML+= curptr + '</td><td>';
-    rptHTML+= curcash + '</td><td>';
-    rptHTML+= curcards + '</td></tr>';
-  }); // end of each
-  rptHTML+= '</table>';
-  $("#rptlist").remove();
-  $('#draftrpt').append(rptHTML);
+  playerDisplay();
+
+  if (D1846.draft.curPlayer !== D1846.input.playerid) {
+    var cpname = D1846.draft.players[D1846.draft.curPlayer-1].name;
+    $('#did').append('<br><br>It is not your turn in this draft.');
+    $('#did').append('<br><br>The current player is ');
+    $('#did').append(cpname).append('.');
+    $('#canform').show();
+    return;
+  }
 
 // Deal the new hand 
   D1846.deck = D1846.draft.deck;
@@ -97,7 +76,7 @@ function getDraftResult(result) {
   emptyHand();
   if (fillHand() === false) { // draft is over.
     // update table record with D1846.draft.status = "Done"
-    draftDone();
+    finishDraft();
     return false;
   } 
   
@@ -165,7 +144,7 @@ function processSelection() {
   D1846.draft.players[playerIndex].cash = cash;
   
   var dataString = JSON.stringify(D1846.draft);
-  var cString = "draft_id=" + D1846.draftid;
+  var cString = "draftid=" + D1846.input.draftid;
   cString += "&draft=" + dataString;
   $.post("php/updtDraft.php", cString, updateDraftResult);
 };
@@ -190,8 +169,8 @@ function updateDraftResult(result) {
     alert(errmsg);
     return;
   }
-  if (result === 'collision') {
-    handleCollision();
+  if (result === 'collision') { // Back out and perhaps try again
+    $('#collform').show();
     return;
   }
   if (result !== 'success') {
@@ -203,15 +182,84 @@ function updateDraftResult(result) {
     alert(nerrmsg);
     return;
   }
-  
-  var dbgmsg = 'Just finished DB update.\n';
-  dbgmsg += JSON.stringify(D1846.draft);
-  alert(dbgmsg);
-  
+  var nextp = D1846.input.playerid +1;
+  if (nextp > D1846.numbPlayers){
+    nextp = 1;
+  }
+  var nextString = 'draftid=' + D1846.draftid + '&playerid=' + nextp;
+  $.post("php/emailNext.php", nextString, nextEmailResult);
+
+
 }
 
+/* 
+ * Function nextEmailsResult is the call back function for the
+ * ajax call to emailNext.php. It only needs to check for errors.
+ *  
+ * Output from emailNext.php 
+ * is an echo return status:
+ *   "success" - Email sent.
+ *   "fail"    - Uexpected error - This email not sent.
+ */
+function nextEmailResult(response) {
+  if (response === 'fail') {
+    var errmsg = 'Sending an email to a player failed.\n';
+    errmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    errmsg += D1846.adminName + '\n';
+    errmsg += D1846.adminEmail;
+    alert(errmsg);
+    window.location.assign("draft1846Goodby.html?msgtype=0");
+  }
+  else if (response !== 'success') {
+    // Something is definitly wrong in the code.
+    var nerrmsg = 'Invalid return code from emailPlayer.php.\n';
+    nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    nerrmsg += D1846.adminName + '\n';
+    nerrmsg += D1846.adminEmail;
+    alert(nerrmsg);
+    window.location.assign("draft1846Goodby.html?msgtype=0");
+  }
 
-function handleCollision() {alert('Collision.');}
+  $('#did').append('<br><br>Your turn in this draft is completed.');
+  $('#did').append('<br>An email has been sent to the next player.');
+  playerDisplay()
+  $('#canform').show();
+}
 
+function finishDraft() {alert('Draft Done.');}
 
 function draftDone() {alert('Draft Done.');}
+
+/*
+ * The playerDisplay function appends the player status table
+ * to the draftrpt div. it first deletes any previous table.
+ */
+function playerDisplay() {
+  var curptr, curcash, curcards;
+  var rptHTML = '<br><table id="rptlist" >';
+  rptHTML+= '<tr style="background-color: #ddffdd"><th>Player<br>Name</th>';
+  rptHTML+= '<th>Current<br>Player?</th><th>Player\'s<br>Cash</th>';
+  rptHTML+= '<th>Player\'s<br>Privates</th></tr>';
+  
+  $.each(D1846.draft.players,function(index,listInfo) {
+    if ((index +1) === D1846.input.playerid) {
+      curptr = 'Yes';
+      curcash = listInfo.cash;
+      curcards = '';
+      $.each(listInfo.privates,function(pindex,pInfo) { 
+        curcards += pInfo + '  ';
+      }); // end of each
+    } else {
+      curptr = '';
+      curcash = '<i>hidden<i>';
+      curcards = '<i>hidden<i>';
+    }
+    rptHTML+= '<tr> <td>' + listInfo.name + '</td><td>';
+    rptHTML+= curptr + '</td><td>';
+    rptHTML+= curcash + '</td><td>';
+    rptHTML+= curcards + '</td></tr>';
+  }); // end of each
+  rptHTML+= '</table>';
+  $("#rptlist").remove();
+  $('#draftrpt').append(rptHTML);
+}

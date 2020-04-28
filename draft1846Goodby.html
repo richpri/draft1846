@@ -11,9 +11,21 @@ A copy of this license can be found in the LICENSE.text file.
   <head>
     <meta charset="utf-8" />
     <title>DRAFT1846 - Private Company Draft Tool For 1846 Games</title>
-    <link rel="shortcut icon" href="images/favicon.ico" >
-    <link rel="stylesheet" href="style/draft1846Com.css" />
-    <link rel="stylesheet" href="style/draft1846Index.css" />
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="style/draft1846Com.css">
+    <link rel="stylesheet" href="style/draft1846Goodby.css">
+    <script type="text/javascript" src="scripts/jquery.js">
+    </script> 
+    <script>
+      $(function() {
+        var url_string = window.location.href; //window.location.href
+        var url = new URL(url_string);
+        var type = url.searchParams.get("msgtype");
+        if (type === '1') {
+          $("#content").show();
+        }
+      });
+    </script>
   </head>
   <body>
     
@@ -28,14 +40,19 @@ A copy of this license can be found in the LICENSE.text file.
     </div>
     
     <div id="restofpage"> 
-      <div id="content" style="padding-right: 20px">    
+      <div id="content">    
         <p style="font-size: 130%">
           <b>This DRAFT1846 startup session has ended.</b>
         </p>
         <p>The rest of the draft process will be driven by emails.<br>
           Keep an eye on your in box for your confirmation email. 
         </p>
-        <p>Thank you for using DRAFT1846.<br> 
+      </div>
+      <div id="content2">
+        <p style="font-size: 130%">
+          <b>Thank you for using DRAFT1846.</b>
+        </p>
+        <p>
           Goodbye for now and always remember "Have Fun!"         
         </p>
       </div>
