@@ -54,6 +54,7 @@ function getDraftResult(result) {
   
   if (D1846.draft.status !== "Active") {
     $('#draftrpt').append('This draft has not yet started.');
+    $('.allforms').hide();
     $('#canform').show();
     return;
   }
@@ -66,6 +67,7 @@ function getDraftResult(result) {
     $('#did').append('<br><br>It is not your turn in this draft.');
     $('#did').append('<br><br>The current player is ');
     $('#did').append(cpname).append('.');
+    $('.allforms').hide();
     $('#canform').show();
     return;
   }
@@ -107,6 +109,7 @@ function getDraftResult(result) {
   }); // end of each
   draftHTML+= '</table>';
   $("#drftlist").remove();
+  $('.allforms').hide();
   $('#draftturn').append(draftHTML);
   $('#draftturn').show();
   $('#draftform').show();
@@ -119,12 +122,21 @@ function getDraftResult(result) {
  */
 function processSelection() {
   var cardsel = $("#cardsel").val(); //card that was selected.
-  D1846.hand =D1846.draft.hand.slice();
+  D1846.hand = D1846.draft.hand.slice();
   var handIdx = cardsel - 1;
+  // check for selection of nonexistant card
+  if (D1846.hand.length <= handIdx) {
+    $('#did').append('<br><br>there are only ');
+    $('#did').append(D1846.hand.length);
+    $('#did').append(' cards left in your hand.');
+    $('.allforms').hide();
+    $('#againform').show();
+    return;
+  }
   var selectArray = D1846.hand.splice(handIdx,1);
   var selected = selectArray[0];
   var cost;
-  for(i=0; i<10; i++){
+  for(i=0; i<11; i++){
     if (D1846.prInfo[i][0] === selected) {
       cost = D1846.prInfo[i][1];
       break;
@@ -170,6 +182,7 @@ function updateDraftResult(result) {
     return;
   }
   if (result === 'collision') { // Back out and perhaps try again
+    $('.allforms').hide();
     $('#collform').show();
     return;
   }
@@ -183,10 +196,10 @@ function updateDraftResult(result) {
     return;
   }
   var nextp = D1846.input.playerid +1;
-  if (nextp > D1846.numbPlayers){
+  if (nextp > D1846.draft.numbPlayers){
     nextp = 1;
   }
-  var nextString = 'draftid=' + D1846.draftid + '&playerid=' + nextp;
+  var nextString = 'draftid=' + D1846.input.draftid + '&playerid=' + nextp;
   $.post("php/emailNext.php", nextString, nextEmailResult);
 
 
@@ -222,8 +235,10 @@ function nextEmailResult(response) {
 
   $('#did').append('<br><br>Your turn in this draft is completed.');
   $('#did').append('<br>An email has been sent to the next player.');
-  playerDisplay()
-  $('#canform').show();
+  playerDisplay();
+  $('#draftturn').hide();
+  $('.allforms').hide();
+  $('#doneform').show();
 }
 
 function finishDraft() {alert('Draft Done.');}
@@ -247,8 +262,9 @@ function playerDisplay() {
       curcash = listInfo.cash;
       curcards = '';
       $.each(listInfo.privates,function(pindex,pInfo) { 
-        curcards += pInfo + '  ';
+        curcards += pInfo + ' -- ';
       }); // end of each
+      curcards = curcards.slice(0, curcards.length - 3);
     } else {
       curptr = '';
       curcash = '<i>hidden<i>';

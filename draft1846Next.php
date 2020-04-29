@@ -61,6 +61,13 @@ $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
           window.location.assign("draft1846Goodby.html?msgtype=0");
           return false;          
         }); // end button3b click 
+        $("#button3c").click(function(){
+          var tryagain = 'draft1846Next.php?draftid=';
+          tryagain += D1846.input.draftid + '&playerid=';
+          tryagain += D1846.input.playerid;
+          window.location.assign(tryagain);
+          return false;          
+        }); // end button3c click
         $("#button4").click(function(){
           var recallnext = 'draft1846Next.php?draftid=';
           recallnext += D1846.input.draftid + '&playerid=';
@@ -100,7 +107,7 @@ $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
         </div>
         <div id="draftturn">
         </div>
-        <div id="draftform">
+        <div id="draftform" class="allforms">
           Be sure to select your card before you press enter!<br>
           <form name="form1" action="" >
             <label for="cardsel">Select card by number [1 to 5]: </label>
@@ -112,23 +119,29 @@ $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
                    id="button2" value="Cancel" >
           </form>
         </div>
-        <div id="canform">
+        <div id="canform" class="allforms">
           <form name="form2" action="" >
             <input type="button" name="button3" class="pwbutton" 
                    id="button3" value="Cancel" >
           </form>
         </div>
-        <div id="doneform">
-          <form name="form2" action="" >
+        <div id="doneform" class="allforms">
+          <form name="form3" action="" >
             <input type="button" name="button3b" class="pwbutton" 
                    id="button3b" value="exit" >
           </form>
-        </div>        
-        <div id="collform">
+        </div>       
+        <div id="againform" class="allforms">
+          <form name="form4" action="" >
+            <input type="button" name="button3c" class="pwbutton" 
+                   id="button3c" value="try again" >
+          </form>
+        </div>  
+        <div id="collform" class="allforms">
           Your update collided with another player's update.<br>
           Try again. If you get this message repeatedly then 
           contact the DRAFT1846 webmaster.
-          <form name="form3" action="" >
+          <form name="form5" action="" >
             <input type="button" name="button4" class="pwbutton" 
                    id="button4" value="Retry" >
             <input type="button" name="button5" class="pwbutton" 

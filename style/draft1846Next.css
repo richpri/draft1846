@@ -64,6 +64,17 @@
   display: none;
 }
 
+#againform {
+  width: 3.4in;
+  border: 1px solid black; 
+  padding: 5px; 
+  padding-left: 20px;
+  margin-top: 20px;
+  margin-left: 1.4in;
+  text-align: center;
+  display: none;
+}
+
 #rptlist {
   padding: 5px; 
   padding-left: 30px;
