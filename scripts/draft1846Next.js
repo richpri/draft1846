@@ -201,8 +201,6 @@ function updateDraftResult(result) {
   }
   var nextString = 'draftid=' + D1846.input.draftid + '&playerid=' + nextp;
   $.post("php/emailNext.php", nextString, nextEmailResult);
-
-
 }
 
 /* 
@@ -241,13 +239,121 @@ function nextEmailResult(response) {
   $('#doneform').show();
 }
 
-function finishDraft() {alert('Draft Done.');}
+/*
+ * The finishDraft function updates the draft status to "Done".
+ */
+function finishDraft()  {
+  D1846.draft.status = "Done";
+  var dataString = JSON.stringify(D1846.draft);
+  var cString = "draftid=" + D1846.input.draftid;
+  cString += "&draft=" + dataString;
+  $.post("php/finishDraft.php", cString, finishDraftResult);
+}
 
-function draftDone() {alert('Draft Done.');}
+/*
+ * The finishDraftResult function is the call back function for 
+ * the ajax call by the finishDraft function to finishDraft.php. 
+ * It sends a completed email to each player and then
+ * it calls the draftDone function.
+ */
+function finishDraftResult()  {
+  if (result === 'fail') {
+    var errmsg = 'finishDraft.php failed.\n';
+    errmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    errmsg += D1846.adminName + '\n';
+    errmsg += D1846.adminEmail;
+    alert(errmsg);
+    return;
+  }
+  if (result !== 'success') {
+    // Something is definitly wrong in the code.
+    var nerrmsg = 'Invalid return code from finishDraft.php.\n';
+    nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    nerrmsg += D1846.adminName + '\n';
+    nerrmsg += D1846.adminEmail;
+    alert(nerrmsg);
+    return;
+  }
+  D1846.mailError = false;
+  var i;
+  for (i = 1; i <= D1846.draft.numbPlayers; i++) {
+    var doneString = 'draftid=' + D1846.input.draftid + '&playerid=' + i;
+    $.post("php/emailDone.php", doneString, doneEmailResult);
+  }
+  
+  
+  draftDone();
+}
+
+/*
+ * The doneEmailResult function is the call back function for 
+ * the ajax call to emailDone.php. It will have to
+ * process returns from multiple emails for the same call.
+ * It only needs to check for errors and it only needs to report 
+ * the first error. 
+ *  
+ * Output from emailDone.php 
+ * is an echo return status:
+ *   "success" - Email sent.
+ *   "fail"    - Uexpected error - This email not sent.
+ */
+function doneEmailResult(response)  {
+  if (response === 'fail') {
+    if (D1846.mailError === false) {
+      var errmsg = 'Sending a done email to a player failed.\n';
+      errmsg += 'Please contact the DRAFT1846 webmaster.\n';
+      errmsg += D1846.adminName + '\n';
+      errmsg += D1846.adminEmail;
+      alert(errmsg);
+      D1846.mailError = true;
+    }
+  }
+  else if (response !== 'success') {
+    // Something is definitly wrong in the code.
+    var nerrmsg = 'Invalid return code from emailDone.php.\n';
+    nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    nerrmsg += D1846.adminName + '\n';
+    nerrmsg += D1846.adminEmail;
+    alert(nerrmsg);
+  }
+}
+
+/*
+ * The draftDone function deletes any previously displayed player 
+ * status table. It then appends the final player status table
+ * to the draftrpt div. The final player status table shows all
+ * status for all players. Finally, The draftDone function appends
+ * a completed message to the 'did' paragraph.
+ */
+function draftDone() {
+  var curcash, curcards;
+  var rptHTML = '<br><table id="rptlist" >';
+  rptHTML+= '<caption>The Final Player Status</caption>';
+  rptHTML+= '<tr style="background-color: #ddffdd"><th>Player<br>Name</th>';
+  rptHTML+= '<th>Player\'s<br>Cash</th>';
+  rptHTML+= '<th>Player\'s<br>Privates</th></tr>';
+  $.each(D1846.draft.players,function(index,listInfo) {
+    curcash = listInfo.cash;
+    curcards = '';
+    $.each(listInfo.privates,function(pindex,pInfo) { 
+      curcards += pInfo + ' -- ';
+    }); // end of each
+    curcards = curcards.slice(0, curcards.length - 3);
+    rptHTML+= '<tr> <td>' + listInfo.name + '</td><td>';
+    rptHTML+= curcash + '</td><td>';
+    rptHTML+= curcards + '</td></tr>';
+  }); // end of each
+  rptHTML+= '</table>';
+  $("#rptlist").remove();
+  $('#draftrpt').append(rptHTML);
+  $('#did').append('<br><br>This draft is completed.');
+  $('.allforms').hide();
+  $('#doneform').show();
+}
 
 /*
  * The playerDisplay function appends the player status table
- * to the draftrpt div. it first deletes any previous table.
+ * to the draftrpt div. It first deletes any previous table.
  */
 function playerDisplay() {
   var curptr, curcash, curcards;
