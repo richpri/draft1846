@@ -72,7 +72,7 @@ $body = <<<XEOD
 <p>This is a message from the DRAFT1846 server at $server.</p>
 <p>Hello $playername:</p>
 <pstyle='font-weight:bold'>
-The Draft ID of $draftid is completed.</p>
+The draft with the Draft ID of $draftid is completed.</p>
 <p>You ended the draft with $cash dollars and the following privates:</p>
 <p>$privates</p>
 <p>Thank you for using DRAFT1846.</p>

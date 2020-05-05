@@ -48,7 +48,7 @@ function getDraftResult(result) {
   $('#pid').append( thisPlayer).append('.');
   
   if (D1846.draft.status === "Done") { // This draft is over.
-    DraftDone();
+    draftDone();
     return;
   }
   
@@ -256,7 +256,7 @@ function finishDraft()  {
  * It sends a completed email to each player and then
  * it calls the draftDone function.
  */
-function finishDraftResult()  {
+function finishDraftResult(result)  {
   if (result === 'fail') {
     var errmsg = 'finishDraft.php failed.\n';
     errmsg += 'Please contact the DRAFT1846 webmaster.\n';
@@ -328,7 +328,7 @@ function doneEmailResult(response)  {
 function draftDone() {
   var curcash, curcards;
   var rptHTML = '<br><table id="rptlist" >';
-  rptHTML+= '<caption>The Final Player Status</caption>';
+  rptHTML+= '<caption><b>The Final Player Status</b></caption>';
   rptHTML+= '<tr style="background-color: #ddffdd"><th>Player<br>Name</th>';
   rptHTML+= '<th>Player\'s<br>Cash</th>';
   rptHTML+= '<th>Player\'s<br>Privates</th></tr>';
@@ -336,9 +336,9 @@ function draftDone() {
     curcash = listInfo.cash;
     curcards = '';
     $.each(listInfo.privates,function(pindex,pInfo) { 
-      curcards += pInfo + ' -- ';
+      curcards += pInfo + ' <br>';
     }); // end of each
-    curcards = curcards.slice(0, curcards.length - 3);
+    curcards = curcards.slice(0, curcards.length - 4);
     rptHTML+= '<tr> <td>' + listInfo.name + '</td><td>';
     rptHTML+= curcash + '</td><td>';
     rptHTML+= curcards + '</td></tr>';
@@ -368,9 +368,9 @@ function playerDisplay() {
       curcash = listInfo.cash;
       curcards = '';
       $.each(listInfo.privates,function(pindex,pInfo) { 
-        curcards += pInfo + ' -- ';
+        curcards += pInfo + ' <br>';
       }); // end of each
-      curcards = curcards.slice(0, curcards.length - 3);
+      curcards = curcards.slice(0, curcards.length - 4);
     } else {
       curptr = '';
       curcash = '<i>hidden<i>';
