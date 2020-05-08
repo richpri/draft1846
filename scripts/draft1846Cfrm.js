@@ -63,7 +63,10 @@ function updateCfrmResult(result) {
   $('#confbox').append(cfrmHTML);
   
   if (D1846.draft.status === "Active") {
-     $('#done').show();
+    var cpname = D1846.draft.players[D1846.draft.curPlayer-1].name;
+    $('#did').append('<br><br>The current player is ');
+    $('#did').append(cpname).append('.');
+    $('#done').show();
   }
 
   if (D1846.draft.status === "Confirmed") {

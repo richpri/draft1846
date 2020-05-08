@@ -110,9 +110,9 @@ $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
         <div id="draftform" class="allforms">
           Be sure to select your card before you press enter!<br>
           <form name="form1" action="" >
-            <label for="cardsel">Select card by number [1 to 5]: </label>
+            <label for="cardsel">Select card by number: </label>
             <input type="number" name="cardsel" id="cardsel"
-                   value="1" min="1" max="5"><br>
+                   value="1" min="1" max="7"><br>
             <input type="button" name="button1" class="pwbutton" 
                    id="button1" value="Enter" >
             <input type="button" name="button2" class="pwbutton" 

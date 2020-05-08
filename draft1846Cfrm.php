@@ -55,9 +55,9 @@ $player  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
     <div id="restofpage"> 
       <div id="content">
         <div id="toptext">
-            <span id="did">
+          <p id="did">
             The draft id for this draft is  
-            </span>
+          </p>
          
           <p id="cfrm">
             Your Email address has been confirmed.
