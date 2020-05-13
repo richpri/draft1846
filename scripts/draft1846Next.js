@@ -16,7 +16,7 @@
  * current players turn and sets up the first part of the  
  * draft1846Next page.
  *  
- * Output from getDraft.php is ajson encoded array.   
+ * Output from getDraft.php is a json encoded array.   
  * The "return" value will be either "success" or "fail". If 
  * it is "fail" then it will be the only item in the array.
  * If the "return" value is "success", then the rest of the
@@ -81,6 +81,12 @@ function getDraftResult(result) {
     finishDraft();
     return false;
   } 
+  // Check here for only one card not yet selected.
+  if (D1846.hand.length === 1) {
+    doOneLeft();
+    return;
+  }
+  
   
   // Setup actual draft display.
   var prsel;
@@ -112,8 +118,80 @@ function getDraftResult(result) {
   $('.allforms').hide();
   $('#draftturn').append(draftHTML);
   $('#draftturn').show();
+  $('#cardsel').attr('max',D1846.hand.length);
   $('#draftform').show();
 }
+
+/*
+ * The doOneLeft function handles the special case of only one  
+ * private company left. It offers it to each successive player  
+ * at a cumaltive $10 discount. When discounted price is $0 the
+ * current player must take the private company. The price 
+ * reduction is tracked by the D1846.draft.cpd variable.
+ */
+function doOneLeft() {
+  var i;
+  for(i=1; i<=10; i++){
+    if (D1846.prInfo[i][0] === D1846.hand[0]) {
+      break;
+    }
+  }
+  var privateName = D1846.prinfo[i][0];
+  var privateCost = D1846.prInfo[i][1];
+  var privatePays = D1846.prInfo[i][2];
+  var numcost = parsint(privateCost) - D1846.draft.cpd;
+  if(privateName === 'Big 4') {
+    numcost = 100 - D1846.draft.cpd;
+  }  
+  if(privateName === 'Michigan Southern') {
+    numcost = 140 - D1846.draft.cpd;
+  }
+  D1846.draft.cpd += 10;
+  var draftHTML = '<p id="lastdraft">There is only one privatr left.<br><br>';
+  draftHTML+= 'It is ' + privateName + ' which costs an adjusted ' + numcost;
+  draftHTML+= ' and pays ' + privatePays + '.<br><br>';
+  draftHTML+= 'You must either buy it or pass.</p>';
+  $("#lastdraft").remove();
+  $('.allforms').hide();
+  $('#draftturn').append(draftHTML);
+  $('#draftturn').show();
+  $('#lastform').show();
+}
+
+/*
+ * The processLastSelection function uses the last card   
+ * to update the current player's hand.   
+ * The draft will then have completed.
+ */
+function processLastSelection() {
+  var cardsel = 1; //the last card was selected.
+  var handIdx = 0;
+  var selectArray = D1846.draft.hand.splice(handIdx,1);
+  var selected = selectArray[0];
+  var cost;
+  for(i=0; i<11; i++){
+    if (D1846.prInfo[i][0] === selected) {
+      cost = D1846.prInfo[i][1];
+      break;
+    }
+  }  
+  var cost1 = cost.split("+");
+  var cost2 = cost1[0].substring(1);
+  var numCost = parseInt(cost2) - D1846.draft.cpd;
+  if(selected === 'Big 4') {
+    numCost = 100 - D1846.draft.cpd;
+  }  
+  if(selected === 'Michigan Southern') {
+    numCost = 140 - D1846.draft.cpd;
+  }
+  
+  var playerIndex = D1846.input.playerid - 1;
+  D1846.draft.players[playerIndex].privates.push(selected);
+  var cash = D1846.draft.players[playerIndex].cash;
+  cash -= numCost;
+  D1846.draft.players[playerIndex].cash = cash; 
+  finishDraft();
+};
 
 /*
  * The processSelection function uses the entered cardsel   
@@ -144,7 +222,7 @@ function processSelection() {
   }  
   var cost1 = cost.split("+");
   var cost2 = cost1[0].substring(1);
-  var numCost = parseInt(cost2, 10);
+  var numCost = parseInt(cost2);
   if(selected === 'Big 4') {numCost = 100;}
   if(selected === 'Michigan Southern') {numCost = 140;}
   
@@ -155,6 +233,19 @@ function processSelection() {
   cash -= numCost;
   D1846.draft.players[playerIndex].cash = cash;
   
+  var dataString = JSON.stringify(D1846.draft);
+  var cString = "draftid=" + D1846.input.draftid;
+  cString += "&draft=" + dataString;
+  $.post("php/updtDraft.php", cString, updateDraftResult);
+};
+
+/*
+ * The processPass function saves the updated  
+ * value of D1846.draft.cpd to the database.   
+ * It then causes updateDraftResult to send
+ * an email to the next player.
+ */
+function processPass() {
   var dataString = JSON.stringify(D1846.draft);
   var cString = "draftid=" + D1846.input.draftid;
   cString += "&draft=" + dataString;
@@ -280,8 +371,6 @@ function finishDraftResult(result)  {
     var doneString = 'draftid=' + D1846.input.draftid + '&playerid=' + i;
     $.post("php/emailDone.php", doneString, doneEmailResult);
   }
-  
-  
   draftDone();
 }
 
@@ -372,7 +461,7 @@ function playerDisplay() {
       }); // end of each
       curcards = curcards.slice(0, curcards.length - 4);
     } else {
-      curptr = '';
+      curptr = 'No';
       curcash = '<i>hidden<i>';
       curcards = '<i>hidden<i>';
     }

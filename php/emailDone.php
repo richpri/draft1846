@@ -75,6 +75,11 @@ $body = <<<XEOD
 The draft with the Draft ID of $draftid is completed.</p>
 <p>You ended the draft with $cash dollars and the following privates:</p>
 <p>$privates</p>
+<p>To see the Final Player Status, simply click on the URL below.</p>
+<p style='font-weight:bold'>
+<a href="$linkaddr/draft1846Next.php?draftid=$draftid&playerid=$playerid">
+$linkaddr/draft1846Next.php?draftid=$draftid&playerid=$playerid</a>
+</p> 
 <p>Thank you for using DRAFT1846.</p>
 XEOD;
 

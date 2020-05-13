@@ -184,6 +184,7 @@ function makeDraftRow() {
   D1846.draft.updtCount = 0;  
   D1846.draft.numbPlayers = D1846.playercount;
   D1846.draft.curPlayer = 1;
+  D1846.draft.cpd = 0; // Price ajustment for spurned last private.
   D1846.draft.deck = [];
   for (i=0;i<D1846.deck.length;i++) {
     D1846.draft.deck[i] = D1846.deck[i]

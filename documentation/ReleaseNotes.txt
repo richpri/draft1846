@@ -1,0 +1,10 @@
+Current status of remaining bugs/enhancements for DRAFT1846 as of May 13, 2020     
+Level Page To Change      Description and Status
+Bug   draft1846Next.php   Handle special case of end of draft with one private.
+                          Fixed but not tested.
+Bug   draft1846Next.php   Adjust max card select number to match actual hand.
+                          Fixed but not tested.
+High  draft1846Cfrm.php   Show who has the current action if draft status is 'Active'.
+                          Already fixed and tested.
+High  draft1846Next.php   Done email should have link to Completed report.
+                          Fixed but not tested.
