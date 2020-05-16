@@ -48,6 +48,13 @@ function clean($conn, $str) {
 $draftid = clean($link, $_REQUEST['draft_id']);
 $playerid = clean($link, $_REQUEST['player_id']);
 
+// Make sure player ID is numeric from 1 to 5.
+if (!is_numeric($playerid) || $playerid < 1 || $playerid > 5) {
+  $logMessage = 'updtCfrm: The input player ID is invalid or out of range.';
+  error_log($logMessage);
+  echo $failreturn;
+  exit;
+}
 
 // Start transaction.
 $qry1 = "START TRANSACTION";

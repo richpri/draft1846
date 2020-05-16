@@ -1,6 +1,6 @@
 /*
- * The draft1846Next script contains the functions used by the
- * draft1846Next page.
+ * The draft1846Last script contains the functions used by the
+ * draft1846Last page.
  * 
  * Copyright (c) 2020 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
@@ -12,9 +12,9 @@
 
 /*
  * The getDraftResult function is the call back function for 
- * the ajax calls to getDraft.php. It checks that it is the  
+ * the ajax call to getDraft.php. It checks that it is the  
  * current players turn and sets up the first part of the  
- * draft1846Next page.
+ * draft1846Last page.
  *  
  * Output from getDraft.php is a json encoded array.   
  * The "return" value will be either "success" or "fail". If 
@@ -27,7 +27,7 @@ function getDraftResult(result) {
   D1846.updtCount = D1846.draft.updtCount;
   var result = D1846.draft.return;
   if (result === 'fail') {
-    var errmsg = 'getDraft.php failed.\n';
+    var errmsg = 'draft1846Last: getDraft.php failed.\n';
     errmsg += 'Please contact the DRAFT1846 webmaster.\n';
     errmsg += D1846.adminName + '\n';
     errmsg += D1846.adminEmail;
@@ -36,7 +36,7 @@ function getDraftResult(result) {
   }
   else if (result !== 'success') {
     // Something is definitly wrong in the code.
-    var nerrmsg = 'Invalid return code from getDraft.php.\n';
+    var nerrmsg = 'draft1846Last: Invalid return code from getDraft.php.\n';
     nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
     nerrmsg += D1846.adminName + '\n';
     nerrmsg += D1846.adminEmail;
@@ -45,23 +45,46 @@ function getDraftResult(result) {
   }
   
   var thisPlayer = D1846.draft.players[D1846.input.playerid-1].name
+  var curPlayer = D1846.draft.players[D1846.draft.curPlayer-1].name
   $('#pid').append( thisPlayer).append('.');
   
-  if (D1846.draft.status === "Done") { // This draft is over.
-    draftDone();
-    return;
+  switch (D1846.draft.status) {
+    case 'Pending':
+    case 'Confirmed':
+      $('#did').append('<br><br>This draft has not yet started.');
+      $('#did').append('<br><br>The current player is ');
+      $('#did').append(curPlayer).append('.');
+      $('.allforms').hide();
+      $('#canform').show();
+      return;
+      break;
+    case 'Active':
+      $('#did').append('<br><br>This draft is active.<br>');
+      $('#did').append('The draft1846Last page does not handle Active drafts.');
+      $('#did').append('<br><br>The current player is ');
+      $('#did').append(curPlayer).append('.');
+      $('.allforms').hide();
+      $('#canform').show();
+      return;
+      break;
+    case 'Done':
+      draftDone();
+      return;
+      break;
   }
-  
-  if (D1846.draft.status !== "Active") {
-    $('#draftrpt').append('This draft has not yet started.');
-    $('.allforms').hide();
-    $('#canform').show();
+  if (D1846.draft.status !== "Last") {
+    var nerrmsg = 'draft1846Last: Invalid draft status code.\n';
+    nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    nerrmsg += D1846.adminName + '\n';
+    nerrmsg += D1846.adminEmail;
+    alert(nerrmsg);
     return;
   }
 
 // Set up and display player status table.
   playerDisplay();
-
+  
+// Check for wrong player.
   if (D1846.draft.curPlayer !== D1846.input.playerid) {
     var cpname = D1846.draft.players[D1846.draft.curPlayer-1].name;
     $('#did').append('<br><br>It is not your turn in this draft.');
@@ -72,104 +95,55 @@ function getDraftResult(result) {
     return;
   }
 
-// Deal the new hand 
-  D1846.deck = D1846.draft.deck;
-  D1846.hand = D1846.draft.hand;
-  emptyHand();
-  if (fillHand() === false) { // draft is over.
-    // update table record with D1846.draft.status = "Done"
-    finishDraft();
-    return false;
-  } 
-  // Check here for only one card not yet selected.
-  if (D1846.hand.length === 1) {
-    doOneLeft();
-    return;
-  }
-  
-  
-  // Setup actual draft display.
-  var prsel;
   var privateName;
   var privateCost;
   var privatePays;
-  var draftHTML = '<br><table id="drftlist" >';
-  draftHTML+= '<tr style="background-color: #ddffdd">';
-  draftHTML+= '<th>Select</th><th>Private<br>Name</th>';
-  draftHTML+= '<th>Private<br>Costs</th>';
-  draftHTML+= '<th>Private<br>Pays</th></tr>';
-  $.each(D1846.hand,function(index,listInfo) {
-    prsel = 1 + index;
-    for(i=0; i<=10; i++){
-      if (D1846.prInfo[i][0] === listInfo) {
-        privateName = D1846.prInfo[i][0];
-        privateCost = D1846.prInfo[i][1];
-        privatePays = D1846.prInfo[i][2];
-        break;
-      }
-    }
-    draftHTML+= '<tr><td>' + prsel + '</td>';
-    draftHTML+= '<td>' + listInfo + '</td><td>';
-    draftHTML+= privateCost + '</td><td>';
-    draftHTML+= privatePays + '</td></tr>';
-  }); // end of each
-  draftHTML+= '</table>';
-  $("#drftlist").remove();
-  $('.allforms').hide();
-  $('#draftturn').append(draftHTML);
-  $('#draftturn').show();
-  $('#cardsel').attr('max',D1846.hand.length);
-  $('#draftform').show();
-}
-
-/*
- * The doOneLeft function handles the special case of only one  
- * private company left. It offers it to each successive player  
- * at a cumaltive $10 discount. When discounted price is $0 the
- * current player must take the private company. The price 
- * reduction is tracked by the D1846.draft.cpd variable.
- */
-function doOneLeft() {
-  var i;
+  var numcost;
   for(i=1; i<=10; i++){
-    if (D1846.prInfo[i][0] === D1846.hand[0]) {
+    if (D1846.prInfo[i][0] === D1846.draft.hand[0]) {
+      privateName = D1846.prInfo[i][0];
+      privateCost = D1846.prInfo[i][1];
+      privatePays = D1846.prInfo[i][2];
       break;
     }
   }
-  var privateName = D1846.prInfo[i][0];
-  var privateCost = D1846.prInfo[i][1];
-  var privatePays = D1846.prInfo[i][2];
-  var numcost = parseInt(privateCost) - D1846.draft.cpd;
-  if(privateName === 'Big 4') {
-    numcost = 100 - D1846.draft.cpd;
-  }  
-  if(privateName === 'Michigan Southern') {
-    numcost = 140 - D1846.draft.cpd;
+  switch(privateName) {
+    case 'Big 4':
+      numcost = 100;
+      break;
+    case 'Michigan Southern':
+      numcost = 140;
+      break;
+    default:
+      numcost = privateCost;
   }
+  numcost -= D1846.draft.cpd;
 
-  if(numcost === 0) { // Has cost been reduced to 0?
-  var selectArray = D1846.draft.hand.splice(0,1);
-  var selected = selectArray[0];
-  var playerIndex = D1846.input.playerid - 1;
-  D1846.draft.players[playerIndex].privates.push(selected);
-  $('#did').append('<br><br>The cost of the last private is 0.');
-  finishDraft();
-  return;
-  }
-  
-  
-  D1846.draft.cpd += 10;
-  var draftHTML = '<p id="lastdraft" \n'
-  draftHTML+= 'style="text-align: left; margin-left: 1.0in">';
+  var draftHTML = '<p id="lastdraft1">';
   draftHTML+= 'There is only one private left.<br><br>It is ';
-  draftHTML+= privateName + ' which costs an adjusted ' + numcost;
-  draftHTML+= ' and pays ' + privatePays + '.<br><br>';
-  draftHTML+= 'You must either buy it or pass.</p>';
-  $("#lastdraft").remove();
+  draftHTML+= privateName + ' which usually costs ' + privateCost;
+  draftHTML+= ' and pays ' + privatePays + '.</p>';
+  $("#lastdraft2").remove();
+  $("#lastdraft1").remove();
   $('.allforms').hide();
   $('#draftturn').append(draftHTML);
-  $('#draftturn').show();
-  $('#lastform').show();
+  if(numcost === 0) { // Has cost been reduced to 0?
+    var draftHTML1 = '<p id="lastdraft2">But now it is free. ';
+    draftHTML1 += 'Press enter to add it to your holdings.</p>';
+    $('#draftturn').append(draftHTML1);
+    $('#draftturn').show(); 
+    $('#zeroform').show();
+  } else {
+    var draftHTML2 = '<p id="lastdraft2">';
+    draftHTML2 += 'But now you can have it for the bargan price of ';
+    draftHTML2 +=  numcost +'.<br><br>You must either buy it or pass.</p>';
+    $('#draftturn').append(draftHTML2);
+    $('#draftturn').show(); 
+    $('#lastform').show();
+  }
+  D1846.draft.cpd += 10;
+  D1846.privateName = privateName;
+  D1846.numcost = numcost;
 }
 
 /*
@@ -178,79 +152,15 @@ function doOneLeft() {
  * The draft will then have completed.
  */
 function processLastSelection() {
-//the last card was selected.
-  var selectArray = D1846.draft.hand.splice(0,1);
-  var selected = selectArray[0];
-  var cost;
-  for(i=0; i<11; i++){
-    if (D1846.prInfo[i][0] === selected) {
-      cost = D1846.prInfo[i][1];
-      break;
-    }
-  }  
-  var cost1 = cost.split("+");
-  var cost2 = cost1[0].substring(1);
-  var numCost = parseInt(cost2) - D1846.draft.cpd;
-  if(selected === 'Big 4') {
-    numCost = 100 - D1846.draft.cpd;
-  }  
-  if(selected === 'Michigan Southern') {
-    numCost = 140 - D1846.draft.cpd;
-  }
-  
   var playerIndex = D1846.input.playerid - 1;
-  D1846.draft.players[playerIndex].privates.push(selected);
+  D1846.draft.players[playerIndex].privates.push(D1846.privateName);
   var cash = D1846.draft.players[playerIndex].cash;
-  cash -= numCost;
+  cash -= D1846.numcost;
   D1846.draft.players[playerIndex].cash = cash; 
+  $("#lastdraft2").remove();
+  $("#lastdraft1").remove();
   finishDraft();
 }
-
-/*
- * The processSelection function uses the entered cardsel   
- * value to update the current player's hand. It then checks  
- * if the draft has completed.
- */
-function processSelection() {
-  var cardsel = $("#cardsel").val(); //card that was selected.
-  D1846.hand = D1846.draft.hand.slice();
-  var handIdx = cardsel - 1;
-  // check for selection of nonexistant card
-  if (D1846.hand.length <= handIdx) {
-    $('#did').append('<br><br>there are only ');
-    $('#did').append(D1846.hand.length);
-    $('#did').append(' cards left in your hand.');
-    $('.allforms').hide();
-    $('#againform').show();
-    return;
-  }
-  var selectArray = D1846.hand.splice(handIdx,1);
-  var selected = selectArray[0];
-  var cost;
-  for(i=0; i<11; i++){
-    if (D1846.prInfo[i][0] === selected) {
-      cost = D1846.prInfo[i][1];
-      break;
-    }
-  }  
-  var cost1 = cost.split("+");
-  var cost2 = cost1[0].substring(1);
-  var numCost = parseInt(cost2);
-  if(selected === 'Big 4') {numCost = 100;}
-  if(selected === 'Michigan Southern') {numCost = 140;}
-  
-  D1846.draft.hand =D1846.hand.slice();
-  var playerIndex = D1846.input.playerid - 1;
-  D1846.draft.players[playerIndex].privates.push(selected);
-  var cash = D1846.draft.players[playerIndex].cash;
-  cash -= numCost;
-  D1846.draft.players[playerIndex].cash = cash;
-  
-  var dataString = JSON.stringify(D1846.draft);
-  var cString = "draftid=" + D1846.input.draftid;
-  cString += "&draft=" + dataString;
-  $.post("php/updtDraft.php", cString, updateDraftResult);
-};
 
 /*
  * The processPass function saves the updated  
@@ -269,7 +179,7 @@ function processPass() {
  * The updateDraftResult function is the call back function for 
  * the ajax calls to updateDraft.php. It checks for collisions.
  * Then I checks if the draft is over. If it is then it calls 
- * draftDone for each player. Else it sends a draft1846Next 
+ * draftDone for each player. Else it sends a draft1846Last 
  * email to the next player.
  *  
  * Output from updateDraft is an echo return status of 
@@ -278,7 +188,7 @@ function processPass() {
  */
 function updateDraftResult(result) {
   if (result === 'fail') {
-    var errmsg = 'updtDraft.php failed.\n';
+    var errmsg = 'draft1846Last: updtDraft.php failed.\n';
     errmsg += 'Please contact the DRAFT1846 webmaster.\n';
     errmsg += D1846.adminName + '\n';
     errmsg += D1846.adminEmail;
@@ -292,7 +202,7 @@ function updateDraftResult(result) {
   }
   if (result !== 'success') {
     // Something is definitly wrong in the code.
-    var nerrmsg = 'Invalid return code from updtDraft.php.\n';
+    var nerrmsg = 'draft1846Last: Invalid return code from updtDraft.php.\n';
     nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
     nerrmsg += D1846.adminName + '\n';
     nerrmsg += D1846.adminEmail;
@@ -304,7 +214,7 @@ function updateDraftResult(result) {
     nextp = 1;
   }
   var nextString = 'draftid=' + D1846.input.draftid + '&playerid=' + nextp;
-  $.post("php/emailNext.php", nextString, nextEmailResult);
+  $.post("php/emailLast.php", nextString, nextEmailResult);
 }
 
 /* 
@@ -318,21 +228,19 @@ function updateDraftResult(result) {
  */
 function nextEmailResult(response) {
   if (response === 'fail') {
-    var errmsg = 'Sending an email to a player failed.\n';
+    var errmsg = 'draft1864Last: Sending an email to a player failed.\n';
     errmsg += 'Please contact the DRAFT1846 webmaster.\n';
     errmsg += D1846.adminName + '\n';
     errmsg += D1846.adminEmail;
     alert(errmsg);
-    window.location.assign("draft1846Goodby.html?msgtype=0");
   }
   else if (response !== 'success') {
     // Something is definitly wrong in the code.
-    var nerrmsg = 'Invalid return code from emailPlayer.php.\n';
+    var nerrmsg = 'draft1864Last: Invalid return code from emailPlayer.php.\n';
     nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
     nerrmsg += D1846.adminName + '\n';
     nerrmsg += D1846.adminEmail;
     alert(nerrmsg);
-    window.location.assign("draft1846Goodby.html?msgtype=0");
   }
 
   $('#did').append('<br><br>Your turn in this draft is completed.');
@@ -362,7 +270,7 @@ function finishDraft()  {
  */
 function finishDraftResult(result)  {
   if (result === 'fail') {
-    var errmsg = 'finishDraft.php failed.\n';
+    var errmsg = 'draft1864Last: finishDraft.php failed.\n';
     errmsg += 'Please contact the DRAFT1846 webmaster.\n';
     errmsg += D1846.adminName + '\n';
     errmsg += D1846.adminEmail;
@@ -371,7 +279,7 @@ function finishDraftResult(result)  {
   }
   if (result !== 'success') {
     // Something is definitly wrong in the code.
-    var nerrmsg = 'Invalid return code from finishDraft.php.\n';
+    var nerrmsg = 'draft1864Last: Invalid return code from finishDraft.php.\n';
     nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
     nerrmsg += D1846.adminName + '\n';
     nerrmsg += D1846.adminEmail;
@@ -402,7 +310,7 @@ function finishDraftResult(result)  {
 function doneEmailResult(response)  {
   if (response === 'fail') {
     if (D1846.mailError === false) {
-      var errmsg = 'Sending a done email to a player failed.\n';
+      var errmsg = 'draft1864Last: Sending a done email to a player failed.\n';
       errmsg += 'Please contact the DRAFT1846 webmaster.\n';
       errmsg += D1846.adminName + '\n';
       errmsg += D1846.adminEmail;
@@ -412,7 +320,7 @@ function doneEmailResult(response)  {
   }
   else if (response !== 'success') {
     // Something is definitly wrong in the code.
-    var nerrmsg = 'Invalid return code from emailDone.php.\n';
+    var nerrmsg = 'draft1864Last: Invalid return code from emailDone.php.\n';
     nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
     nerrmsg += D1846.adminName + '\n';
     nerrmsg += D1846.adminEmail;

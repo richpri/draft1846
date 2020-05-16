@@ -1,4 +1,12 @@
-Current status of remaining bugs/enhancements for DRAFT1846 as of May 13, 2020     
+version 0.2.1 - May 16, 2020 - Status Systems Test
+I am part way through the process of separating draft1846Next into two sections.
+draft1846Next will no longer handle the price reduction phase of the draft.
+draft1846Last will take over when there is only one private left.
+* The max card select issue is tested.
+* Done email link issue is tested.
+
+version 0.2.0 - May 13, 2020 - Status Systems Test
+Current status of remaining bugs/enhancements for DRAFT1846    
 Level Page To Change      Description and Status
 Bug   draft1846Next.php   Handle special case of end of draft with one private.
                           Fixed but not tested.
