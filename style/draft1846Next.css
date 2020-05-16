@@ -1,7 +1,7 @@
 /*  
  *  Document   : draft1846Next
  *  Author     : Rich Price
- *  Description: CSS Document for draft1846Next.php page.
+ *  Description: CSS Document for draft1846Start.php page.
  *
  * Copyright (c) 2020 Richard E. Price under the The MIT License.
  * A copy of this license can be found in the LICENSE.text file.
@@ -28,16 +28,7 @@
   margin-top: 20px;
   margin-left: 1.4in;
   text-align: center;
-}
-
-#lastform {
-  width: 4.6in;
-  border: 1px solid black; 
-  padding: 5px; 
-  padding-left: 20px;
-  margin-top: 20px;
-  margin-left: 1.4in;
-  text-align: center;
+  display: none;
 }
 
 #canform {
@@ -48,6 +39,7 @@
   margin-top: 20px;
   margin-left: 1.4in;
   text-align: center;
+  display: none;
 }
 
 #doneform {
@@ -58,6 +50,7 @@
   margin-top: 20px;
   margin-left: 1.4in;
   text-align: center;
+  display: none;
 }
 
 #collform {
@@ -68,6 +61,7 @@
   margin-top: 20px;
   margin-left: 1.4in;
   text-align: center;
+  display: none;
 }
 
 #againform {
@@ -78,9 +72,6 @@
   margin-top: 20px;
   margin-left: 1.4in;
   text-align: center;
-}
-
-.allforms {
   display: none;
 }
 

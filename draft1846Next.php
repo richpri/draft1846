@@ -44,6 +44,7 @@ $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
         $('#did').append(D1846.input.draftid).append('.');
         var cString = "draftid=" + D1846.input.draftid;
         $.post("php/getDraft.php", cString, getDraftResult);
+       
         $("#button1").click(function(){
           processSelection();
           return false;          
@@ -51,15 +52,7 @@ $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
         $("#button2").click(function(){
           window.location.assign("draft1846Goodby.html?msgtype=0");
           return false;          
-        }); // end button2 click 
-        $("#button1a").click(function(){
-          processLastSelection();
-          return false;          
-        }); // end button1a click
-        $("#button2a").click(function(){
-          processPass();
-          return false;          
-        }); // end button2a click  
+        }); // end button2 click  
         $("#button3").click(function(){
           window.location.assign("draft1846Goodby.html?msgtype=0");
           return false;          
@@ -126,14 +119,6 @@ $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
                    id="button2" value="Cancel" >
           </form>
         </div>
-        <div id="lastform" class="allforms">
-          <form name="form1a" action="" >
-            <input type="button" name="button1a" class="pwbutton" 
-                   id="button1a" value="Buy" >
-            <input type="button" name="button2a" class="pwbutton" 
-                   id="button2a" value="Pass" >
-          </form>
-        </div>
         <div id="canform" class="allforms">
           <form name="form2" action="" >
             <input type="button" name="button3" class="pwbutton" 
@@ -163,8 +148,9 @@ $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
                    id="button5" value="Cancel" >
           </form>
         </div>
-      </div>  
-    </div> 
+     </div>  
+    </div>  
+
   </body>
 </html>
 

@@ -43,6 +43,9 @@ function getDraftResult(result) {
     alert(nerrmsg);
     return;
   }
+  if(D1846.draft.cpd === 0) {
+    D1846.draft.status = 'Last';
+  }
   
   var thisPlayer = D1846.draft.players[D1846.input.playerid-1].name
   var curPlayer = D1846.draft.players[D1846.draft.curPlayer-1].name
@@ -72,7 +75,7 @@ function getDraftResult(result) {
       return;
       break;
   }
-  if (D1846.draft.status !== "Last") {
+  if (D1846.draft.status !== 'Last') {
     var nerrmsg = 'draft1846Last: Invalid draft status code.\n';
     nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
     nerrmsg += D1846.adminName + '\n';
@@ -99,6 +102,7 @@ function getDraftResult(result) {
   var privateCost;
   var privatePays;
   var numcost;
+  var cost1;
   for(i=1; i<=10; i++){
     if (D1846.prInfo[i][0] === D1846.draft.hand[0]) {
       privateName = D1846.prInfo[i][0];
@@ -115,7 +119,8 @@ function getDraftResult(result) {
       numcost = 140;
       break;
     default:
-      numcost = privateCost;
+      cost1 = privateCost.substring(1);
+      numcost = parseInt(cost1);
   }
   numcost -= D1846.draft.cpd;
 
@@ -135,8 +140,11 @@ function getDraftResult(result) {
     $('#zeroform').show();
   } else {
     var draftHTML2 = '<p id="lastdraft2">';
-    draftHTML2 += 'But now you can have it for the bargan price of ';
-    draftHTML2 +=  numcost +'.<br><br>You must either buy it or pass.</p>';
+    if(D1846.draft.cpd !== 0) {
+      draftHTML2 += 'But now you can have it for the bargan price of ';
+      draftHTML2 +=  numcost +'.<br><br>';
+    }
+    draftHTML2 +=  'You must either buy it or pass.</p>';
     $('#draftturn').append(draftHTML2);
     $('#draftturn').show(); 
     $('#lastform').show();
@@ -326,72 +334,4 @@ function doneEmailResult(response)  {
     nerrmsg += D1846.adminEmail;
     alert(nerrmsg);
   }
-}
-
-/*
- * The draftDone function deletes any previously displayed player 
- * status table. It then appends the final player status table
- * to the draftrpt div. The final player status table shows all
- * status for all players. Finally, The draftDone function appends
- * a completed message to the 'did' paragraph.
- */
-function draftDone() {
-  var curcash, curcards;
-  var rptHTML = '<br><table id="rptlist" >';
-  rptHTML+= '<caption><b>The Final Player Status</b></caption>';
-  rptHTML+= '<tr style="background-color: #ddffdd"><th>Player<br>Name</th>';
-  rptHTML+= '<th>Player\'s<br>Cash</th>';
-  rptHTML+= '<th>Player\'s<br>Privates</th></tr>';
-  $.each(D1846.draft.players,function(index,listInfo) {
-    curcash = listInfo.cash;
-    curcards = '';
-    $.each(listInfo.privates,function(pindex,pInfo) { 
-      curcards += pInfo + ' <br>';
-    }); // end of each
-    curcards = curcards.slice(0, curcards.length - 4);
-    rptHTML+= '<tr> <td>' + listInfo.name + '</td><td>';
-    rptHTML+= curcash + '</td><td>';
-    rptHTML+= curcards + '</td></tr>';
-  }); // end of each
-  rptHTML+= '</table>';
-  $("#rptlist").remove();
-  $('#draftrpt').append(rptHTML);
-  $('#did').append('<br><br>This draft is completed.');
-  $('.allforms').hide();
-  $('#doneform').show();
-}
-
-/*
- * The playerDisplay function appends the player status table
- * to the draftrpt div. It first deletes any previous table.
- */
-function playerDisplay() {
-  var curptr, curcash, curcards;
-  var rptHTML = '<br><table id="rptlist" >';
-  rptHTML+= '<tr style="background-color: #ddffdd"><th>Player<br>Name</th>';
-  rptHTML+= '<th>Current<br>Player?</th><th>Player\'s<br>Cash</th>';
-  rptHTML+= '<th>Player\'s<br>Privates</th></tr>';
-  
-  $.each(D1846.draft.players,function(index,listInfo) {
-    if ((index +1) === D1846.input.playerid) {
-      curptr = 'Yes';
-      curcash = listInfo.cash;
-      curcards = '';
-      $.each(listInfo.privates,function(pindex,pInfo) { 
-        curcards += pInfo + ' <br>';
-      }); // end of each
-      curcards = curcards.slice(0, curcards.length - 4);
-    } else {
-      curptr = 'No';
-      curcash = '<i>hidden<i>';
-      curcards = '<i>hidden<i>';
-    }
-    rptHTML+= '<tr> <td>' + listInfo.name + '</td><td>';
-    rptHTML+= curptr + '</td><td>';
-    rptHTML+= curcash + '</td><td>';
-    rptHTML+= curcards + '</td></tr>';
-  }); // end of each
-  rptHTML+= '</table>';
-  $("#rptlist").remove();
-  $('#draftrpt').append(rptHTML);
 }

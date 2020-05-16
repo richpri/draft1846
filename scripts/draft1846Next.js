@@ -16,7 +16,7 @@
  * current players turn and sets up the first part of the  
  * draft1846Next page.
  *  
- * Output from getDraft.php is a json encoded array.   
+ * Output from getDraft.php is ajson encoded array.   
  * The "return" value will be either "success" or "fail". If 
  * it is "fail" then it will be the only item in the array.
  * If the "return" value is "success", then the rest of the
@@ -45,18 +45,32 @@ function getDraftResult(result) {
   }
   
   var thisPlayer = D1846.draft.players[D1846.input.playerid-1].name
+  var curPlayer = D1846.draft.players[D1846.draft.curPlayer-1].name
   $('#pid').append( thisPlayer).append('.');
   
-  if (D1846.draft.status === "Done") { // This draft is over.
-    draftDone();
-    return;
-  }
-  
-  if (D1846.draft.status !== "Active") {
-    $('#draftrpt').append('This draft has not yet started.');
-    $('.allforms').hide();
-    $('#canform').show();
-    return;
+  switch (D1846.draft.status) {
+    case 'Pending':
+    case 'Confirmed':
+      $('#did').append('<br><br>This draft has not yet started.');
+      $('#did').append('<br><br>The current player is ');
+      $('#did').append(curPlayer).append('.');
+      $('.allforms').hide();
+      $('#canform').show();
+      return;
+      break;
+    case 'Last':
+      $('#did').append('<br><br>This draft is not in Active status.<br>');
+      $('#did').append('The draft1846Active page only handles Active drafts.');
+      $('#did').append('<br><br>The current player is ');
+      $('#did').append(curPlayer).append('.');
+      $('.allforms').hide();
+      $('#canform').show();
+      return;
+      break;
+    case 'Done':
+      draftDone();
+      return;
+      break;
   }
 
 // Set up and display player status table.
@@ -81,12 +95,6 @@ function getDraftResult(result) {
     finishDraft();
     return false;
   } 
-  // Check here for only one card not yet selected.
-  if (D1846.hand.length === 1) {
-    doOneLeft();
-    return;
-  }
-  
   
   // Setup actual draft display.
   var prsel;
@@ -118,92 +126,7 @@ function getDraftResult(result) {
   $('.allforms').hide();
   $('#draftturn').append(draftHTML);
   $('#draftturn').show();
-  $('#cardsel').attr('max',D1846.hand.length);
   $('#draftform').show();
-}
-
-/*
- * The doOneLeft function handles the special case of only one  
- * private company left. It offers it to each successive player  
- * at a cumaltive $10 discount. When discounted price is $0 the
- * current player must take the private company. The price 
- * reduction is tracked by the D1846.draft.cpd variable.
- */
-function doOneLeft() {
-  var i;
-  for(i=1; i<=10; i++){
-    if (D1846.prInfo[i][0] === D1846.hand[0]) {
-      break;
-    }
-  }
-  var privateName = D1846.prInfo[i][0];
-  var privateCost = D1846.prInfo[i][1];
-  var privatePays = D1846.prInfo[i][2];
-  var numcost = parseInt(privateCost) - D1846.draft.cpd;
-  if(privateName === 'Big 4') {
-    numcost = 100 - D1846.draft.cpd;
-  }  
-  if(privateName === 'Michigan Southern') {
-    numcost = 140 - D1846.draft.cpd;
-  }
-
-  if(numcost === 0) { // Has cost been reduced to 0?
-  var selectArray = D1846.draft.hand.splice(0,1);
-  var selected = selectArray[0];
-  var playerIndex = D1846.input.playerid - 1;
-  D1846.draft.players[playerIndex].privates.push(selected);
-  $('#did').append('<br><br>The cost of the last private is 0.');
-  finishDraft();
-  return;
-  }
-  
-  
-  D1846.draft.cpd += 10;
-  var draftHTML = '<p id="lastdraft" \n'
-  draftHTML+= 'style="text-align: left; margin-left: 1.0in">';
-  draftHTML+= 'There is only one private left.<br><br>It is ';
-  draftHTML+= privateName + ' which costs an adjusted ' + numcost;
-  draftHTML+= ' and pays ' + privatePays + '.<br><br>';
-  draftHTML+= 'You must either buy it or pass.</p>';
-  $("#lastdraft").remove();
-  $('.allforms').hide();
-  $('#draftturn').append(draftHTML);
-  $('#draftturn').show();
-  $('#lastform').show();
-}
-
-/*
- * The processLastSelection function uses the last card   
- * to update the current player's hand.   
- * The draft will then have completed.
- */
-function processLastSelection() {
-//the last card was selected.
-  var selectArray = D1846.draft.hand.splice(0,1);
-  var selected = selectArray[0];
-  var cost;
-  for(i=0; i<11; i++){
-    if (D1846.prInfo[i][0] === selected) {
-      cost = D1846.prInfo[i][1];
-      break;
-    }
-  }  
-  var cost1 = cost.split("+");
-  var cost2 = cost1[0].substring(1);
-  var numCost = parseInt(cost2) - D1846.draft.cpd;
-  if(selected === 'Big 4') {
-    numCost = 100 - D1846.draft.cpd;
-  }  
-  if(selected === 'Michigan Southern') {
-    numCost = 140 - D1846.draft.cpd;
-  }
-  
-  var playerIndex = D1846.input.playerid - 1;
-  D1846.draft.players[playerIndex].privates.push(selected);
-  var cash = D1846.draft.players[playerIndex].cash;
-  cash -= numCost;
-  D1846.draft.players[playerIndex].cash = cash; 
-  finishDraft();
 }
 
 /*
@@ -235,7 +158,7 @@ function processSelection() {
   }  
   var cost1 = cost.split("+");
   var cost2 = cost1[0].substring(1);
-  var numCost = parseInt(cost2);
+  var numCost = parseInt(cost2, 10);
   if(selected === 'Big 4') {numCost = 100;}
   if(selected === 'Michigan Southern') {numCost = 140;}
   
@@ -253,22 +176,9 @@ function processSelection() {
 };
 
 /*
- * The processPass function saves the updated  
- * value of D1846.draft.cpd to the database.   
- * It then causes updateDraftResult to send
- * an email to the next player.
- */
-function processPass() {
-  var dataString = JSON.stringify(D1846.draft);
-  var cString = "draftid=" + D1846.input.draftid;
-  cString += "&draft=" + dataString;
-  $.post("php/updtDraft.php", cString, updateDraftResult);
-};
-
-/*
  * The updateDraftResult function is the call back function for 
  * the ajax calls to updateDraft.php. It checks for collisions.
- * Then I checks if the draft is over. If it is then it calls 
+ * Then it checks if the draft is over. If it is then it calls 
  * draftDone for each player. Else it sends a draft1846Next 
  * email to the next player.
  *  
@@ -304,12 +214,21 @@ function updateDraftResult(result) {
     nextp = 1;
   }
   var nextString = 'draftid=' + D1846.input.draftid + '&playerid=' + nextp;
-  $.post("php/emailNext.php", nextString, nextEmailResult);
+/*
+ * Check for one private and no blank cards left.
+ * In this case control will be transfered to the emailLast.php page
+ */
+  if (D1846.draft.hand.length === 1 && D1846.draft.hand[0] !== 'Blank Card') {
+    $.post("php/emailLast.php", nextString, nextEmailResult);
+  } else {
+    $.post("php/emailNext.php", nextString, nextEmailResult); 
+  }
 }
 
 /* 
- * Function nextEmailsResult is the call back function for the
- * ajax call to emailNext.php. It only needs to check for errors.
+ * Function nextEmailsResult is the call back function for both
+ * the ajax call to emailNext.php and the ajax call to 
+ * emailLast.php. It only needs to check for errors.
  *  
  * Output from emailNext.php 
  * is an echo return status:
@@ -384,6 +303,8 @@ function finishDraftResult(result)  {
     var doneString = 'draftid=' + D1846.input.draftid + '&playerid=' + i;
     $.post("php/emailDone.php", doneString, doneEmailResult);
   }
+  
+  
   draftDone();
 }
 
@@ -420,70 +341,3 @@ function doneEmailResult(response)  {
   }
 }
 
-/*
- * The draftDone function deletes any previously displayed player 
- * status table. It then appends the final player status table
- * to the draftrpt div. The final player status table shows all
- * status for all players. Finally, The draftDone function appends
- * a completed message to the 'did' paragraph.
- */
-function draftDone() {
-  var curcash, curcards;
-  var rptHTML = '<br><table id="rptlist" >';
-  rptHTML+= '<caption><b>The Final Player Status</b></caption>';
-  rptHTML+= '<tr style="background-color: #ddffdd"><th>Player<br>Name</th>';
-  rptHTML+= '<th>Player\'s<br>Cash</th>';
-  rptHTML+= '<th>Player\'s<br>Privates</th></tr>';
-  $.each(D1846.draft.players,function(index,listInfo) {
-    curcash = listInfo.cash;
-    curcards = '';
-    $.each(listInfo.privates,function(pindex,pInfo) { 
-      curcards += pInfo + ' <br>';
-    }); // end of each
-    curcards = curcards.slice(0, curcards.length - 4);
-    rptHTML+= '<tr> <td>' + listInfo.name + '</td><td>';
-    rptHTML+= curcash + '</td><td>';
-    rptHTML+= curcards + '</td></tr>';
-  }); // end of each
-  rptHTML+= '</table>';
-  $("#rptlist").remove();
-  $('#draftrpt').append(rptHTML);
-  $('#did').append('<br><br>This draft is completed.');
-  $('.allforms').hide();
-  $('#doneform').show();
-}
-
-/*
- * The playerDisplay function appends the player status table
- * to the draftrpt div. It first deletes any previous table.
- */
-function playerDisplay() {
-  var curptr, curcash, curcards;
-  var rptHTML = '<br><table id="rptlist" >';
-  rptHTML+= '<tr style="background-color: #ddffdd"><th>Player<br>Name</th>';
-  rptHTML+= '<th>Current<br>Player?</th><th>Player\'s<br>Cash</th>';
-  rptHTML+= '<th>Player\'s<br>Privates</th></tr>';
-  
-  $.each(D1846.draft.players,function(index,listInfo) {
-    if ((index +1) === D1846.input.playerid) {
-      curptr = 'Yes';
-      curcash = listInfo.cash;
-      curcards = '';
-      $.each(listInfo.privates,function(pindex,pInfo) { 
-        curcards += pInfo + ' <br>';
-      }); // end of each
-      curcards = curcards.slice(0, curcards.length - 4);
-    } else {
-      curptr = 'No';
-      curcash = '<i>hidden<i>';
-      curcards = '<i>hidden<i>';
-    }
-    rptHTML+= '<tr> <td>' + listInfo.name + '</td><td>';
-    rptHTML+= curptr + '</td><td>';
-    rptHTML+= curcash + '</td><td>';
-    rptHTML+= curcards + '</td></tr>';
-  }); // end of each
-  rptHTML+= '</table>';
-  $("#rptlist").remove();
-  $('#draftrpt').append(rptHTML);
-}

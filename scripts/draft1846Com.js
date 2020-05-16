@@ -127,3 +127,72 @@ function emptyHand() {
   D1846.hand.length = 0;
   return true;
 }
+
+/* 
+ * Functions used by draft1846Next and by draft1846Last
+ */
+
+/*
+ * The draftDone function deletes any previously displayed player 
+ * status table. It then appends the final player status table
+ * to the draftrpt div. The final player status table shows all
+ * status for all players. Finally, The draftDone function appends
+ * a completed message to the 'did' paragraph.
+ */
+function draftDone() {
+  var curcash, curcards;
+  var rptHTML = '<br><table id="rptlist" >';
+  rptHTML+= '<caption><b>The Final Player Status</b></caption>';
+  rptHTML+= '<tr style="background-color: #ddffdd"><th>Player<br>Name</th>';
+  rptHTML+= '<th>Player\'s<br>Cash</th>';
+  rptHTML+= '<th>Player\'s<br>Privates</th></tr>';
+  $.each(D1846.draft.players,function(index,listInfo) {
+    curcash = listInfo.cash;
+    curcards = '';
+    $.each(listInfo.privates,function(pindex,pInfo) { 
+      curcards += pInfo + ' <br>';
+    }); // end of each
+    curcards = curcards.slice(0, curcards.length - 4);
+    rptHTML+= '<tr> <td>' + listInfo.name + '</td><td>';
+    rptHTML+= curcash + '</td><td>';
+    rptHTML+= curcards + '</td></tr>';
+  }); // end of each
+  rptHTML+= '</table>';
+  $("#rptlist").remove();
+  $('#draftrpt').append(rptHTML);
+  $('#did').append('<br><br>This draft is completed.');
+  $('.allforms').hide();
+  $('#doneform').show();
+}
+
+/*
+ * The playerDisplay function appends the player status table
+ * to the draftrpt div. It first deletes any previous table.
+ */
+function playerDisplay() {
+  var curcash, curcards;
+  var rptHTML = '<br><table id="rptlist" >';
+  rptHTML+= '<tr style="background-color: #ddffdd">';
+  rptHTML+= '<th>Player<br>Name</th><th>Player\'s<br>Cash</th>';
+  rptHTML+= '<th>Player\'s<br>Privates</th></tr>';
+  
+  $.each(D1846.draft.players,function(index,listInfo) {
+    if ((index +1) === D1846.input.playerid) {
+      curcash = listInfo.cash;
+      curcards = '';
+      $.each(listInfo.privates,function(pindex,pInfo) { 
+        curcards += pInfo + ' <br>';
+      }); // end of each
+      curcards = curcards.slice(0, curcards.length - 4);
+    } else {
+      curcash = '<i>hidden<i>';
+      curcards = '<i>hidden<i>';
+    }
+    rptHTML+= '<tr> <td>' + listInfo.name + '</td><td>';
+    rptHTML+= curcash + '</td><td>';
+    rptHTML+= curcards + '</td></tr>';
+  }); // end of each
+  rptHTML+= '</table>';
+  $("#rptlist").remove();
+  $('#draftrpt').append(rptHTML);
+}

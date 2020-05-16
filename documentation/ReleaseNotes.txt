@@ -1,3 +1,6 @@
+version 0.2.2 - May 16, 2020 - Status Systems Test
+Finished coding the separation. 
+
 version 0.2.1 - May 16, 2020 - Status Systems Test
 I am part way through the process of separating draft1846Next into two sections.
 draft1846Next will no longer handle the price reduction phase of the draft.
