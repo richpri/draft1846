@@ -87,22 +87,6 @@ $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
           window.location.assign("draft1846Goodby.html?msgtype=0");
           return false;          
         }); // end button5 click 
-        
-// Verify code below!
- 
-
-
-        $("#button4").click(function(){
-          var recallnext = 'draft1846Next.php?draftid=';
-          recallnext += D1846.input.draftid + '&playerid=';
-          recallnext += D1846.input.playerid;
-          window.location.assign(recallnext);
-          return false;          
-        }); // end button4 click  
-        $("#button5").click(function(){
-          window.location.assign("draft1846Goodby.html?msgtype=0");
-          return false;          
-        }); // end button5 click 
       });
     </script>
   </head>
@@ -155,10 +139,10 @@ $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
                    id="buttonc3" value="Exit" >
           </form>
         </div>        
-        <div id="collform" class="allforms">
+        <div id="collform" class="allforms"><p id="collp">
           Your update collided with another player's update.<br>
           Try again. If you get this message repeatedly then 
-          contact the DRAFT1846 webmaster.
+          contact the DRAFT1846 webmaster<br><br></p>
           <form name="form4" action="" >
             <input type="button" name="button4" class="pwbutton" 
                    id="button4" value="Retry" >

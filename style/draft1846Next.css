@@ -75,6 +75,10 @@
   display: none;
 }
 
+.allforms {
+  display: none;
+}
+
 #rptlist {
   padding: 5px; 
   padding-left: 30px;

@@ -137,10 +137,10 @@ $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
                    id="button3c" value="try again" >
           </form>
         </div>  
-        <div id="collform" class="allforms">
+        <div id="collform" class="allforms"><p id="collp">
           Your update collided with another player's update.<br>
           Try again. If you get this message repeatedly then 
-          contact the DRAFT1846 webmaster.
+          contact the DRAFT1846 webmaster<br><br></p>
           <form name="form5" action="" >
             <input type="button" name="button4" class="pwbutton" 
                    id="button4" value="Retry" >

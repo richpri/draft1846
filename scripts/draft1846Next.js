@@ -270,27 +270,34 @@ function finishDraft()  {
   var dataString = JSON.stringify(D1846.draft);
   var cString = "draftid=" + D1846.input.draftid;
   cString += "&draft=" + dataString;
-  $.post("php/finishDraft.php", cString, finishDraftResult);
+  $.post("php/updtDraft.php", cString, finishDraftResult);
 }
 
 /*
  * The finishDraftResult function is the call back function for 
- * the ajax call by the finishDraft function to finishDraft.php. 
+ * the ajax call by the finishDraft function to updtDraft.php. 
  * It sends a completed email to each player and then
  * it calls the draftDone function.
  */
 function finishDraftResult(result)  {
   if (result === 'fail') {
-    var errmsg = 'finishDraft.php failed.\n';
+    var errmsg = 'updtDraft.php failed.\n';
     errmsg += 'Please contact the DRAFT1846 webmaster.\n';
     errmsg += D1846.adminName + '\n';
     errmsg += D1846.adminEmail;
     alert(errmsg);
     return;
   }
+  if (result === 'collision') { // Back out and perhaps try again
+    $('.allforms').hide();
+    var collmsg = D1846.adminName + ' at ' + D1846.adminEmail + '.';
+    $('#collp').append(collmsg);
+    $('#collform').show();
+    return;
+  }
   if (result !== 'success') {
     // Something is definitly wrong in the code.
-    var nerrmsg = 'Invalid return code from finishDraft.php.\n';
+    var nerrmsg = 'Invalid return code from updtDraft.php.\n';
     nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
     nerrmsg += D1846.adminName + '\n';
     nerrmsg += D1846.adminEmail;

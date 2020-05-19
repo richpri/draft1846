@@ -5,7 +5,7 @@
 # A copy of this license can be found in the LICENSE.text file.
 
 # Set versionNo to the version number of the new distribution
-versionNo="0.2.2"
+versionNo="1.0.0"
 
 # Set BD18Root to the root of the BOARD18 directory structure.
 D1846Root=~/NetBeansProjects/DRAFT1846/

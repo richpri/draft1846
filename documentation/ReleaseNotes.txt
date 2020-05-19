@@ -1,3 +1,7 @@
+version 1.0.0 - May 19, 2020 - Status Production
+This version should be considered the first production version.
+It has been tested and all known issues have been addressed.
+
 version 0.2.2 - May 16, 2020 - Status Systems Test
 Finished coding the separation. 
 
