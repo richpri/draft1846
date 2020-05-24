@@ -43,7 +43,7 @@ function getDraftResult(result) {
     alert(nerrmsg);
     return;
   }
-  if(D1846.draft.cpd === 0) {
+  if (D1846.draft.hand.length === 1 && D1846.draft.hand[0] !== 'Blank Card') {
     D1846.draft.status = 'Last';
   }
   

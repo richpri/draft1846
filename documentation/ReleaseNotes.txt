@@ -1,3 +1,9 @@
+version 1.0.1 - May 24, 2020
+Bug 147 - Provide a check for correct page in draft1846Next - fixed
+Bug 148 - DRAFT18 can be used to peek at other players' choices
+     Phase 1 - draft1846Start now adds the urlKey to draft_table.
+Also removed leftover debugging code from sendEmail.php.
+
 version 1.0.0 - May 19, 2020 - Status Production
 This version should be considered the first production version.
 It has been tested and all known issues have been addressed.

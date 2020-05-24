@@ -209,25 +209,71 @@ function makeDraftRow() {
 
 /* 
  * Function newDraftOK is the success callback function for 
- * the ajax php/makeDraft.php call. It checks for a failure
+ * the ajax makeDraft.php call. It checks for a failure
  * and then reports the new draft ID to the start page.
- * Finally it calls the startupEmails function.
+ * Finally it adds a psudorandom url key to the array for
+ * each player calls the updatedraft.php function.
  * 
  * The php/makeDraft.php call returns the numeric draft_id of 
  * the new table row or the intiger 0 if a failure occured.
  */
 function newDraftOK(response) {
-  if (response === 0) {
+  if (response === "0") {
     var errmsg = 'The draft_table row creation failed.\n';
     errmsg += 'Please contact the DRAFT1846 webmaster.\n';
     errmsg += D1846.adminName + '\n';
     errmsg += D1846.adminEmail;
     alert(errmsg);
     window.location = 'index.html';
+    return false;    
   }
-  var didmsg = "The new draft ID = ";
-  didmsg += response + ". Confirmation emails are being sent to players.";
   D1846.draftID = response;
+  for (i=0; i<D1846.playercount; i++) {
+    D1846.draft.players[i].urlKey = urlKeyGen(D1846.draftID, i+1);
+  }
+  var dataString = JSON.stringify(D1846.draft);
+  var cString = "draftid=" + D1846.draftID;
+  cString += "&draft=" + dataString;
+  $.post("php/updtDraft.php", cString, updtDraftResult);
+}
+
+/* 
+ * Function updtDraftResult is the success callback function  
+ * for the ajax updtDraft.php call made by the newDraftOK()
+ * function. It checks for a failure or a collision
+ * and then it calls the emailConfirmation.php function.
+ * 
+ * Output from updateDraft is an echo return status of 
+ * "success", "collision" or "fail".
+ */
+function updtDraftResult(result) {
+  if (result === 'fail') {
+    var errmsg = 'draft1846Start: updtDraft.php failed.\n';
+    errmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    errmsg += D1846.adminName + '\n';
+    errmsg += D1846.adminEmail;
+    alert(errmsg);
+    return;
+  }
+  if (result === 'collision') { // Back out and perhaps try again
+    var errmsg = 'draft1846Start: updtDraft.php failed.\n';
+    errmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    errmsg += D1846.adminName + '\n';
+    errmsg += D1846.adminEmail;
+    alert(errmsg);
+    return;
+  }
+  if (result !== 'success') {
+    // Something is definitly wrong in the code.
+    var nerrmsg = 'draft1846Start: Invalid return code from updtDraft.php.\n';
+    nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    nerrmsg += D1846.adminName + '\n';
+    nerrmsg += D1846.adminEmail;
+    alert(nerrmsg);
+    return;
+  }
+  var didmsg = "The new draft ID = " + D1846.draftID;
+  didmsg += ". Confirmation emails are being sent to players.";
   $("#emsg").text(didmsg).show();
   D1846.mailError = false;
   D1846.firstReply = true;
@@ -290,5 +336,23 @@ function startupEmailsResult(response) {
       });
     }
   }
+}
+  
+/* 
+ * The urlKeyGen() function creates a random url key  
+ * for a given draftID and playerID.  
+ * 
+ * Input consists of the draftID and the playerID
+ * 
+ * Output is a psudorandom url key based on the input.
+ */
+function urlKeyGen(draftID, playerID) {
+  var length = 7;
+  var charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  var urlkey = ("00000" + draftID).slice(-4) + playerID;
+  for (var i = 0, n = charset.length; i < length; ++i) {
+    urlkey += charset.charAt(Math.floor(Math.random() * n));
+  }
+  return urlkey;
 }
 

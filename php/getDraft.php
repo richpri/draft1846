@@ -22,7 +22,7 @@ require_once('config.php');
 $failrtn = array("return" => "fail");
 $failreturn = json_encode($failrtn); 
 
-$link = @mysqli_connect(DB_HOST, DB_USER, 
+$link = mysqli_connect(DB_HOST, DB_USER, 
         DB_PASSWORD, DB_DATABASE);
 if ($link === false) {
   $logMessage = 'getDraft: MySQL Connect Error';

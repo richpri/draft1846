@@ -64,8 +64,8 @@ $myplayers = min($myplayer2, 5);
             window.location.assign("index.html");
           }
           return false;          
-        }); // end button2 click   
-
+        }); // end button2 click 
+        
       });
     </script>
   </head>
@@ -193,7 +193,7 @@ $myplayers = min($myplayer2, 5);
                  id="button2" value="Exit" >
           </fieldset>
         </form>
-      </div>  
+      </div> 
     </div>  
 
   </body>

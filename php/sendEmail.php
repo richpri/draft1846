@@ -43,10 +43,10 @@ function sendEmail($email, $subject, $body) {
   $mailObj->WordWrap = 70;        // Set word wrap to 70 characters.
   $mailObj->isHTML(true);         // Set email format to HTML.
 
-    $mailObj->Subject = $subject;
+  $mailObj->Subject = $subject;
   $mailObj->Body = $body;
   $mailObj->Debugoutput = "error_log";
-  error_log( print_r( $mailObj, true ) );
+  // error_log( print_r( $mailObj, true ) ); // for debugging only
   if ($mailObj->send()) {
     echo 'success';
   } else {

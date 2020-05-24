@@ -48,19 +48,20 @@ function getDraftResult(result) {
   var curPlayer = D1846.draft.players[D1846.draft.curPlayer-1].name
   $('#pid').append( thisPlayer).append('.');
   
+  if (D1846.draft.hand.length === 1 && D1846.draft.hand[0] !== 'Blank Card') {
+    $('#did').append('<br><br>This draft is in "Last" status.<br>');
+    $('#did').append('The draft1846Next page only handles Active drafts.');
+    $('#did').append('<br><br>The current player is ');
+    $('#did').append(curPlayer).append('.');
+    $('.allforms').hide();
+    $('#canform').show();
+    return;
+  }
+  
   switch (D1846.draft.status) {
     case 'Pending':
     case 'Confirmed':
       $('#did').append('<br><br>This draft has not yet started.');
-      $('#did').append('<br><br>The current player is ');
-      $('#did').append(curPlayer).append('.');
-      $('.allforms').hide();
-      $('#canform').show();
-      return;
-      break;
-    case 'Last':
-      $('#did').append('<br><br>This draft is not in Active status.<br>');
-      $('#did').append('The draft1846Active page only handles Active drafts.');
       $('#did').append('<br><br>The current player is ');
       $('#did').append(curPlayer).append('.');
       $('.allforms').hide();
