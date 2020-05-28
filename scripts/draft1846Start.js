@@ -234,12 +234,12 @@ function newDraftOK(response) {
   var dataString = JSON.stringify(D1846.draft);
   var cString = "draftid=" + D1846.draftID;
   cString += "&draft=" + dataString;
-  $.post("php/updtDraft.php", cString, updtDraftResult);
+  $.post("php/updtDraftNpi.php", cString, updtDraftResult);
 }
 
 /* 
  * Function updtDraftResult is the success callback function  
- * for the ajax updtDraft.php call made by the newDraftOK()
+ * for the ajax updtDraftNpi.php call made by the newDraftOK()
  * function. It checks for a failure or a collision
  * and then it calls the emailConfirmation.php function.
  * 

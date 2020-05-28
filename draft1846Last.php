@@ -8,7 +8,12 @@
  * player takes the private the draft is over. If not then it
  * sends an email to the next player for him to take his turn.
  * 
- * This page's URL must contain 2 parameters [both integers]:
+ * This page's URL should contain a urlkey parameter. This is
+ * a 12 character pseudo random string that begins with the
+ * draftid and the playerid. 
+ * 
+ * For backwards compatibility it can, for now, also contain  
+ * these two values as seperate integer parameters:
  *      draftid
  *      playerid
  * 
@@ -16,9 +21,15 @@
  * A copy of this license can be found in the LICENSE.text file.
  */
 
-// Insure that the input parameters are integers.
-$draftid  = filter_input(INPUT_GET, 'draftid',FILTER_SANITIZE_NUMBER_INT);
-$playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
+$urlkey = filter_input(INPUT_GET, 'urlkey',FILTER_SANITIZE_STRING);
+if (isset($urlkey)) {
+  $draftid  = intval(substr($urlkey,0,4));
+  $playerid  = intval(substr($urlkey,4,1));
+} else { // This is for backwards compatibility.
+  // Insure that the input parameters are integers.
+  $draftid  = filter_input(INPUT_GET, 'draftid',FILTER_SANITIZE_NUMBER_INT);
+  $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
+}
 ?>
 <!doctype html>
 <html lang="en">

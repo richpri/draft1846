@@ -27,7 +27,7 @@ function getDraftResult(result) {
   D1846.updtCount = D1846.draft.updtCount;
   var result = D1846.draft.return;
   if (result === 'fail') {
-    var errmsg = 'getDraft.php failed.\n';
+    var errmsg = 'draft1846Next: getDraft.php failed.\n';
     errmsg += 'Please contact the DRAFT1846 webmaster.\n';
     errmsg += D1846.adminName + '\n';
     errmsg += D1846.adminEmail;
@@ -42,6 +42,16 @@ function getDraftResult(result) {
     nerrmsg += D1846.adminEmail;
     alert(nerrmsg);
     return;
+  }
+  
+  if (D1846.input.urlkey !== "Empty") { // This is for backwards compatibility.
+    if (D1846.input.urlkey !== D1846.draft.urlkey) {
+      $('#did').append('<br><br>The <b>urlkey</b> on this link is invalid.');
+      $('#did').append('<br>This should not occur.');
+      $('.allforms').hide();
+      $('#canform').show();
+      return;
+    }
   }
   
   var thisPlayer = D1846.draft.players[D1846.input.playerid-1].name
@@ -189,7 +199,7 @@ function processSelection() {
  */
 function updateDraftResult(result) {
   if (result === 'fail') {
-    var errmsg = 'updtDraft.php failed.\n';
+    var errmsg = 'draft1846Next: updtDraft.php failed.\n';
     errmsg += 'Please contact the DRAFT1846 webmaster.\n';
     errmsg += D1846.adminName + '\n';
     errmsg += D1846.adminEmail;
@@ -203,7 +213,7 @@ function updateDraftResult(result) {
   }
   if (result !== 'success') {
     // Something is definitly wrong in the code.
-    var nerrmsg = 'Invalid return code from updtDraft.php.\n';
+    var nerrmsg = 'draft1846Next: Invalid return code from updtDraft.php.\n';
     nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
     nerrmsg += D1846.adminName + '\n';
     nerrmsg += D1846.adminEmail;
@@ -238,7 +248,7 @@ function updateDraftResult(result) {
  */
 function nextEmailResult(response) {
   if (response === 'fail') {
-    var errmsg = 'Sending an email to a player failed.\n';
+    var errmsg = 'draft1846Next: Sending an email to a player failed.\n';
     errmsg += 'Please contact the DRAFT1846 webmaster.\n';
     errmsg += D1846.adminName + '\n';
     errmsg += D1846.adminEmail;
@@ -247,7 +257,7 @@ function nextEmailResult(response) {
   }
   else if (response !== 'success') {
     // Something is definitly wrong in the code.
-    var nerrmsg = 'Invalid return code from emailPlayer.php.\n';
+    var nerrmsg = 'draft1846Next: Invalid return code from emailPlayer.php.\n';
     nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
     nerrmsg += D1846.adminName + '\n';
     nerrmsg += D1846.adminEmail;
@@ -282,7 +292,7 @@ function finishDraft()  {
  */
 function finishDraftResult(result)  {
   if (result === 'fail') {
-    var errmsg = 'updtDraft.php failed.\n';
+    var errmsg = 'draft1846Next: updtDraft.php failed.\n';
     errmsg += 'Please contact the DRAFT1846 webmaster.\n';
     errmsg += D1846.adminName + '\n';
     errmsg += D1846.adminEmail;
@@ -298,7 +308,7 @@ function finishDraftResult(result)  {
   }
   if (result !== 'success') {
     // Something is definitly wrong in the code.
-    var nerrmsg = 'Invalid return code from updtDraft.php.\n';
+    var nerrmsg = 'draft1846Next: Invalid return code from updtDraft.php.\n';
     nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
     nerrmsg += D1846.adminName + '\n';
     nerrmsg += D1846.adminEmail;
@@ -331,7 +341,7 @@ function finishDraftResult(result)  {
 function doneEmailResult(response)  {
   if (response === 'fail') {
     if (D1846.mailError === false) {
-      var errmsg = 'Sending a done email to a player failed.\n';
+      var errmsg = 'draft1846Next: Sending a done email to a player failed.\n';
       errmsg += 'Please contact the DRAFT1846 webmaster.\n';
       errmsg += D1846.adminName + '\n';
       errmsg += D1846.adminEmail;
@@ -341,7 +351,7 @@ function doneEmailResult(response)  {
   }
   else if (response !== 'success') {
     // Something is definitly wrong in the code.
-    var nerrmsg = 'Invalid return code from emailDone.php.\n';
+    var nerrmsg = 'draft1846Next: Invalid return code from emailDone.php.\n';
     nerrmsg += 'Please contact the DRAFT1846 webmaster.\n';
     nerrmsg += D1846.adminName + '\n';
     nerrmsg += D1846.adminEmail;

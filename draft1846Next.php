@@ -6,7 +6,12 @@
  * This page deals a new hand and updates the database. It then
  * sends an email to the next player for him to take his turn.
  * 
- * This page's URL must contain 2 parameters [both integers]:
+ * This page's URL should contain a urlkey parameter. This is
+ * a 12 character pseudo random string that begins with the
+ * draftid and the playerid. 
+ * 
+ * For backwards compatibility it can, for now, also contain  
+ * these two values as seperate integer parameters:
  *      draftid
  *      playerid
  * 
@@ -14,9 +19,16 @@
  * A copy of this license can be found in the LICENSE.text file.
  */
 
-// Insure that the input parameters are integers.
-$draftid  = filter_input(INPUT_GET, 'draftid',FILTER_SANITIZE_NUMBER_INT);
-$playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
+$urlkey = filter_input(INPUT_GET, 'urlkey',FILTER_SANITIZE_STRING);
+if (isset($urlkey)) {
+  $draftid  = intval(substr($urlkey,0,4));
+  $playerid  = intval(substr($urlkey,4,1));
+} else { // This is for backwards compatibility.
+  // Insure that the input parameters are integers.
+  $draftid  = filter_input(INPUT_GET, 'draftid',FILTER_SANITIZE_NUMBER_INT);
+  $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
+  $urlkey = 'Empty';
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -41,6 +53,7 @@ $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
         D1846.input = [];
         D1846.input.draftid = parseInt(<?php echo "$draftid"; ?>);
         D1846.input.playerid = parseInt(<?php echo "$playerid"; ?>);
+        D1846.input.urlkey = '<?php echo "$urlkey"; ?>';
         $('#did').append(D1846.input.draftid).append('.');
         var cString = "draftid=" + D1846.input.draftid;
         $.post("php/getDraft.php", cString, getDraftResult);

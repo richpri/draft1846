@@ -1,24 +1,30 @@
-version 1.0.1 - May 24, 2020
+release 1.0.2 - May 28, 2020
+Bug 148 - DRAFT18 can be used to peek at other players' choices
+     Phase 2 - draft1846Next and draft1846Last now process urlKeys
+               For temporary backward compatability they also still 
+               process the old style URL suffixes too.
+
+release 1.0.1 - May 24, 2020
 Bug 147 - Provide a check for correct page in draft1846Next - fixed
 Bug 148 - DRAFT18 can be used to peek at other players' choices
      Phase 1 - draft1846Start now adds the urlKey to draft_table.
 Also removed leftover debugging code from sendEmail.php.
 
-version 1.0.0 - May 19, 2020 - Status Production
-This version should be considered the first production version.
+release 1.0.0 - May 19, 2020 - Status Production
+This release should be considered the first production release.
 It has been tested and all known issues have been addressed.
 
-version 0.2.2 - May 16, 2020 - Status Systems Test
+release 0.2.2 - May 16, 2020 - Status Systems Test
 Finished coding the separation. 
 
-version 0.2.1 - May 16, 2020 - Status Systems Test
+release 0.2.1 - May 16, 2020 - Status Systems Test
 I am part way through the process of separating draft1846Next into two sections.
 draft1846Next will no longer handle the price reduction phase of the draft.
 draft1846Last will take over when there is only one private left.
 * The max card select issue is tested.
 * Done email link issue is tested.
 
-version 0.2.0 - May 13, 2020 - Status Systems Test
+release 0.2.0 - May 13, 2020 - Status Systems Test
 Current status of remaining bugs/enhancements for DRAFT1846    
 Level Page To Change      Description and Status
 Bug   draft1846Next.php   Handle special case of end of draft with one private.

@@ -1,12 +1,13 @@
 <?php
 
 /* 
- * The updtDraft.php is the server side code for the 
- * AJAX updtDraft call. It updates the specified table 
+ * The updtDraftNpi.php is the server side code for the 
+ * AJAX updtDraftNpi call. It updates the specified table 
  * row in the draft_table in the draft1846 database.
  * Before doing so, it tests and then increments the 
- * updtCount value in the "draft" json string. It also
- * increments the curPlayer value.
+ * updtCount value in the "draft" json string. But, 
+ * unlike updtDraft, it does not increment curPlayer.
+ * 
  * Input consists the "draftid" and the new value 
  * of "draft" for the table row.
  * 
@@ -77,10 +78,6 @@ if ($draftarray["updtCount"] !== $draftinput["updtCount"]){
 }
 
 $draftinput["updtCount"] += 1; // Increment update counter
-$draftinput["curPlayer"] += 1; // Increment current player
-if ($draftinput["curPlayer"] > $draftinput["numbPlayers"]) {
-  $draftinput["curPlayer"] = 1; // Handle curPayer wrap
-}
 
 $draftjson3 = json_encode($draftinput);
 

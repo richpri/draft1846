@@ -43,6 +43,17 @@ function getDraftResult(result) {
     alert(nerrmsg);
     return;
   }
+  
+  if (D1846.input.urlkey !== "Empty") { // This is for backwards compatibility.
+    if (D1846.input.urlkey !== D1846.draft.urlkey) {
+      $('#did').append('<br><br>The <b>urlkey</b> on this link is invalid.');
+      $('#did').append('<br>This should not occur.');
+      $('.allforms').hide();
+      $('#canform').show();
+      return;
+    }
+  }
+  
   if (D1846.draft.hand.length === 1 && D1846.draft.hand[0] !== 'Blank Card') {
     D1846.draft.status = 'Last';
   }
