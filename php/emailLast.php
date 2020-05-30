@@ -51,6 +51,7 @@ if ($result1) {
     $draftarray = json_decode($draftjson, true);
     $playername = $draftarray["players"][$playerid-1]["name"];
     $address = $draftarray["players"][$playerid-1]["email"];
+    $urlkey = $draftarray["players"][$playerid-1]["urlKey"];
   }
 } else {
   error_log("emailLast: getDraft: Query failed: general failure");
@@ -69,8 +70,8 @@ It is your turn in the 1846 draft with the Draft ID of $draftid.</p>
 <p>This draft is being moderated by the draft1846 draft system.</p>
 <p>To take your turn, simply click on the URL below.</p>
 <p style='font-weight:bold'>
-<a href="$linkaddr/draft1846Last.php?draftid=$draftid&playerid=$playerid">
-$linkaddr/draft1846Last.php?draftid=$draftid&playerid=$playerid</a>
+<a href="$linkaddr/draft1846Last.php?urlkey=$urlkey">
+$linkaddr/draft1846Cfrm.php?urlkey=$urlkey</a>
 </p>
 XEOD;
 

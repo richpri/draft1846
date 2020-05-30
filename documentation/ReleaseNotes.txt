@@ -1,4 +1,9 @@
-release 1.0.2 - May 28, 2020
+release 1.0.3 - May 30, 2020
+Bug 148 - DRAFT18 can be used to peek at other players' choices
+     Phase 3 - emailNext.php and emailLast.php now produce links that
+               use urlKeys. Drafts with IDs <= 20 are broken on prod1.
+
+release 1.0.2 - May 30, 2020
 Bug 148 - DRAFT18 can be used to peek at other players' choices
      Phase 2 - draft1846Next and draft1846Last now process urlKeys
                For temporary backward compatability they also still 

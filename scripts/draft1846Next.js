@@ -45,7 +45,8 @@ function getDraftResult(result) {
   }
   
   if (D1846.input.urlkey !== "Empty") { // This is for backwards compatibility.
-    if (D1846.input.urlkey !== D1846.draft.urlkey) {
+    var urlkey = D1846.draft.players[D1846.input.playerid-1].urlKey;
+    if (D1846.input.urlkey !== urlkey) {
       $('#did').append('<br><br>The <b>urlkey</b> on this link is invalid.');
       $('#did').append('<br>This should not occur.');
       $('.allforms').hide();
