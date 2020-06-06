@@ -1,3 +1,12 @@
+release 1.0.4 - June 6, 2020
+Fixed use of undefined constant MAIL_TLS in sendEmail.php on line 31.
+Fixed typo in mail text in emailNext.php.
+Fixed typo in mail text in emailLast.php.
+Removed debugging code from sendEmail.php.
+Bug 148 - DRAFT18 can be used to peek at other players' choices
+     Phase 4 - remove backwards compatability code from
+               draft1846Next.php and draft1846Last.php. 
+
 release 1.0.3 - May 30, 2020
 Bug 148 - DRAFT18 can be used to peek at other players' choices
      Phase 3 - emailNext.php and emailLast.php now produce links that

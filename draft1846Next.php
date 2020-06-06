@@ -20,15 +20,9 @@
  */
 
 $urlkey = filter_input(INPUT_GET, 'urlkey',FILTER_SANITIZE_STRING);
-if (isset($urlkey)) {
-  $draftid  = intval(substr($urlkey,0,4));
-  $playerid  = intval(substr($urlkey,4,1));
-} else { // This is for backwards compatibility.
-  // Insure that the input parameters are integers.
-  $draftid  = filter_input(INPUT_GET, 'draftid',FILTER_SANITIZE_NUMBER_INT);
-  $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
-  $urlkey = 'Empty';
-}
+$draftid  = intval(substr($urlkey,0,4));
+$playerid  = intval(substr($urlkey,4,1));
+
 ?>
 <!doctype html>
 <html lang="en">

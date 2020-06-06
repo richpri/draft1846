@@ -30,14 +30,13 @@ function sendEmail($email, $subject, $body) {
   $mailObj->Host = MAIL_HOST;     // Specify the SMTP server.
   $mailObj->Port = MAIL_PORT;     // Specify port. Use 587 for STARTTLS.
   $mailObj->SMTPAuth = true;      // Enable SMTP authentication
-  if (constant("MAIL_TLS") == 'Yes') { // Is TLS required by the SMTP server?
+  if (MAIL_TLS == 'Yes') { // Is TLS required by the SMTP server?
     $mailObj->SMTPSecure = 'tls';
   }
   $mailObj->Username = MAIL_USER; // SMTP username.
   $mailObj->Password = MAIL_PASS; // SMTP password.
   // All replys will be sent to MAIL_SENDER.
   $mailObj->setFrom(MAIL_SENDER,'DRAFT1846');
-  error_log('address: ' . $email);
   $mailObj->addAddress($email);   // Add a recipient
 
   $mailObj->WordWrap = 70;        // Set word wrap to 70 characters.

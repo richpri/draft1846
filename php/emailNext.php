@@ -71,7 +71,7 @@ It is your turn in the 1846 draft with the Draft ID of $draftid.</p>
 <p>To take your turn, simply click on the URL below.</p>
 <p style='font-weight:bold'>
 <a href="$linkaddr/draft1846Next.php?urlkey=$urlkey">
-$linkaddr/draft1846Cfrm.php?urlkey=$urlkey</a>
+$linkaddr/draft1846Next.php?urlkey=$urlkey</a>
 </p>
 XEOD;
 
