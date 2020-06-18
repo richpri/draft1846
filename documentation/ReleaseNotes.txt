@@ -1,3 +1,8 @@
+release 1.0.5 - June 18, 2020
+Eliminated some leftover "compatability" code.
+Bug 156 - Invalid urlkey in draft1846Last.php
+     Fixed missing line of code in draft1846Last.php
+
 release 1.0.4 - June 6, 2020
 Fixed use of undefined constant MAIL_TLS in sendEmail.php on line 31.
 Fixed typo in mail text in emailNext.php.

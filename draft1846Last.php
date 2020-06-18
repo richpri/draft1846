@@ -48,6 +48,7 @@ $playerid  = intval(substr($urlkey,4,1));
         D1846.input = [];
         D1846.input.draftid = parseInt(<?php echo "$draftid"; ?>);
         D1846.input.playerid = parseInt(<?php echo "$playerid"; ?>);
+        D1846.input.urlkey = '<?php echo "$urlkey"; ?>';
         $('#did').append(D1846.input.draftid).append('.');
         var cString = "draftid=" + D1846.input.draftid;
         $.post("php/getDraft.php", cString, getDraftResult);

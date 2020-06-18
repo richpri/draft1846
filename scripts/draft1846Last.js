@@ -44,15 +44,13 @@ function getDraftResult(result) {
     return;
   }
   
-  if (D1846.input.urlkey !== "Empty") { // This is for backwards compatibility.
-    var urlkey = D1846.draft.players[D1846.input.playerid-1].urlKey;
-    if (D1846.input.urlkey !== urlkey) {
-      $('#did').append('<br><br>The <b>urlkey</b> on this link is invalid.');
-      $('#did').append('<br>This should not occur.');
-      $('.allforms').hide();
-      $('#canform').show();
-      return;
-    }
+  var urlkey = D1846.draft.players[D1846.input.playerid-1].urlKey;
+  if (D1846.input.urlkey !== urlkey) {
+    $('#did').append('<br><br>The <b>urlkey</b> on this link is invalid.');
+    $('#did').append('<br>This should not occur.');
+    $('.allforms').hide();
+    $('#canform').show();
+    return;
   }
   
   if (D1846.draft.hand.length === 1 && D1846.draft.hand[0] !== 'Blank Card') {
