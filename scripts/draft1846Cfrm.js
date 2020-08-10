@@ -70,6 +70,9 @@ function updateCfrmResult(result) {
   }
 
   if (D1846.draft.status === "Confirmed") {
+    var pLine = "<br>Prepairing next player email for player ";
+    pLine += D1846.draft.players[0].name; 
+    $("#confstat").append(pLine);
     var cString = 'draftid=' + D1846.draftid + '&playerid=1';
     $.post("php/emailNext.php", cString, nextEmailResult);
   }

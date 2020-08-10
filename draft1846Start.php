@@ -86,6 +86,7 @@ $myplayers = min($myplayer2, 5);
       <p id="showcount" style="padding-left: 25px;">
         The number of players is </p>
       <div id="content" style="max-width:9.0in;"> 
+        <p id="did">error message</p>
         <p class="error" id="emsg">error message</p>
         <form name="setupform" id="setupform" action="">
           <fieldset>

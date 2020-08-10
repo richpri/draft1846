@@ -273,16 +273,19 @@ function updtDraftResult(result) {
     return;
   }
   var didmsg = "The new draft ID = " + D1846.draftID;
-  didmsg += ". Confirmation emails are being sent to players.";
-  $("#emsg").text(didmsg).show();
+  $("#did").text(didmsg).show();
+  $("#did").append(".<br>Confirmation emails will now be sent to players.");
   D1846.mailError = false;
   D1846.firstReply = true;
-  var cstring;
+  var cString, pl, pLine;
   for (i=0; i<D1846.playercount; i++) {
     pl = i+1;
     cString = 'draftid=' + D1846.draftID;
     cString += '&playerid=' + pl;
     $.post("php/emailConfirmation.php", cString, startupEmailsResult);
+    pLine = "<br>Prepairing confirmation email for player ";
+    pLine += D1846.draft.players[i].name; 
+    $("#did").append(pLine);
   }
 }
 
@@ -293,12 +296,13 @@ function updtDraftResult(result) {
  * It only needs to check for errors and it only needs to report 
  * the first error. 
  *  
- * Output from emailPlayer.php 
+ * Output from emailConfirmation.php 
  * is an echo return status:
  *   "success" - Email sent.
  *   "fail"    - Uexpected error - This email not sent.
  */
 function startupEmailsResult(response) {
+  var pLine;
   if (response === 'fail') {
     if (D1846.mailError === false) {
       var errmsg = 'Sending an email to a player failed.\n';
@@ -318,6 +322,8 @@ function startupEmailsResult(response) {
     alert(nerrmsg);
   }
   else {
+    pLine = "<br>A confirmation email has been sent."; 
+    $("#did").append(pLine);
     if (D1846.firstReply === true){ // Only do this once.
       D1846.firstReply = false;
       D1846.dbDone = true;

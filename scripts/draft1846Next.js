@@ -314,14 +314,15 @@ function finishDraftResult(result)  {
     alert(nerrmsg);
     return;
   }
-  D1846.mailError = false;
-  var i;
+  $("#did").append("<br><br>Informing all players that draft is over.");
+  var i, pLine, doneString;
   for (i = 1; i <= D1846.draft.numbPlayers; i++) {
-    var doneString = 'draftid=' + D1846.input.draftid + '&playerid=' + i;
+    pLine = "<br>Prepairing draft done email for player ";
+    pLine += D1846.draft.players[i-1].name; 
+    $("#did").append(pLine);
+    doneString = 'draftid=' + D1846.input.draftid + '&playerid=' + i;
     $.post("php/emailDone.php", doneString, doneEmailResult);
   }
-  
-  
   draftDone();
 }
 
@@ -329,8 +330,6 @@ function finishDraftResult(result)  {
  * The doneEmailResult function is the call back function for 
  * the ajax call to emailDone.php. It will have to
  * process returns from multiple emails for the same call.
- * It only needs to check for errors and it only needs to report 
- * the first error. 
  *  
  * Output from emailDone.php 
  * is an echo return status:
@@ -338,15 +337,13 @@ function finishDraftResult(result)  {
  *   "fail"    - Uexpected error - This email not sent.
  */
 function doneEmailResult(response)  {
-  if (response === 'fail') {
-    if (D1846.mailError === false) {
-      var errmsg = 'draft1846Next: Sending a done email to a player failed.\n';
-      errmsg += 'Please contact the DRAFT1846 webmaster.\n';
-      errmsg += D1846.adminName + '\n';
-      errmsg += D1846.adminEmail;
-      alert(errmsg);
-      D1846.mailError = true;
-    }
+  if (D1846.mailError === false) {
+    var errmsg = 'draft1846Next: Sending a done email to a player failed.\n';
+    errmsg += 'Please contact the DRAFT1846 webmaster.\n';
+    errmsg += D1846.adminName + '\n';
+    errmsg += D1846.adminEmail;
+    alert(errmsg);
+    D1846.mailError = true;
   }
   else if (response !== 'success') {
     // Something is definitly wrong in the code.
@@ -356,5 +353,6 @@ function doneEmailResult(response)  {
     nerrmsg += D1846.adminEmail;
     alert(nerrmsg);
   }
+  $("#did").append("<br>A draft done email has been sent.");
 }
 

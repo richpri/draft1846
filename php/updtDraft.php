@@ -69,8 +69,12 @@ $draftrow = mysqli_fetch_assoc($result2);
 $draftjson1 = $draftrow["draft"];
 $draftarray = json_decode($draftjson1, true);
 
-if ($draftarray["updtCount"] !== $draftinput["updtCount"]){
-  error_log("updtDraft: Mismatched updtCount");
+$dbcount = $draftarray["updtCount"];
+$incount = $draftinput["updtCount"];
+if ($dbcount !== $incount){
+  $countMessage = "updtDraft: Mismatched updtCount";
+  $countMessage .= "database = $dbcount : input = $incount";
+  error_log($countMessage);
   mysqli_query($link, $qry0); // ROLLBACK
   echo "collision";
   exit;

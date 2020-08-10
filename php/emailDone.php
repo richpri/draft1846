@@ -51,6 +51,7 @@ if ($result1) {
     $draftarray = json_decode($draftjson, true);
     $playername = $draftarray["players"][$playerid-1]["name"];
     $address = $draftarray["players"][$playerid-1]["email"];
+    $urlkey = $draftarray["players"][$playerid-1]["urlKey"];
     $cash = $draftarray["players"][$playerid-1]["cash"];
     $privates = ""; 
     foreach ($draftarray["players"][$playerid-1]["privates"] as $prival) {
@@ -77,8 +78,8 @@ The draft with the Draft ID of $draftid is completed.</p>
 <p>$privates</p>
 <p>To see the Final Player Status, simply click on the URL below.</p>
 <p style='font-weight:bold'>
-<a href="$linkaddr/draft1846Next.php?draftid=$draftid&playerid=$playerid">
-$linkaddr/draft1846Next.php?draftid=$draftid&playerid=$playerid</a>
+<a href="$linkaddr/draft1846Next.php?urlkey=$urlkey">
+$linkaddr/draft1846Next.php?urlkey=$urlkey</a>
 </p> 
 <p>Thank you for using DRAFT1846.</p>
 XEOD;
