@@ -52,37 +52,37 @@ $playerid  = intval(substr($urlkey,4,1));
         var cString = "draftid=" + D1846.input.draftid;
         $.post("php/getDraft.php", cString, getDraftResult);
        
-        $("#button1").click(function(){
+        $("#button1").on("click",function(){
           processSelection();
           return false;          
         }); // end button1 click
-        $("#button2").click(function(){
+        $("#button2").on("click",function(){
           window.location.assign("draft1846Goodby.html?msgtype=0");
           return false;          
         }); // end button2 click  
-        $("#button3").click(function(){
+        $("#button3").on("click",function(){
           window.location.assign("draft1846Goodby.html?msgtype=0");
           return false;          
         }); // end button3 click 
-        $("#button3b").click(function(){
+        $("#button3b").on("click",function(){
           window.location.assign("draft1846Goodby.html?msgtype=0");
           return false;          
         }); // end button3b click 
-        $("#button3c").click(function(){
+        $("#button3c").on("click",function(){
           var tryagain = 'draft1846Next.php?draftid=';
           tryagain += D1846.input.draftid + '&playerid=';
           tryagain += D1846.input.playerid;
           window.location.assign(tryagain);
           return false;          
         }); // end button3c click
-        $("#button4").click(function(){
+        $("#button4").on("click",function(){
           var recallnext = 'draft1846Next.php?draftid=';
           recallnext += D1846.input.draftid + '&playerid=';
           recallnext += D1846.input.playerid;
           window.location.assign(recallnext);
           return false;          
         }); // end button4 click  
-        $("#button5").click(function(){
+        $("#button5").on("click",function(){
           window.location.assign("draft1846Goodby.html?msgtype=0");
           return false;          
         }); // end button5 click 

@@ -53,44 +53,44 @@ $playerid  = intval(substr($urlkey,4,1));
         var cString = "draftid=" + D1846.input.draftid;
         $.post("php/getDraft.php", cString, getDraftResult);
 
-        $("#buttonc1").click(function(){
+        $("#buttonc1").on("click",function(){
           window.location.assign("draft1846Goodby.html?msgtype=0");
           return false;          
         }); // end buttonc1 click 
-        $("#buttonc2").click(function(){
+        $("#buttonc2").on("click",function(){
           window.location.assign("draft1846Goodby.html?msgtype=0");
           return false;          
         }); // end buttonc2 click 
-        $("#buttonc3").click(function(){
+        $("#buttonc3").on("click",function(){
           window.location.assign("draft1846Goodby.html?msgtype=0");
           return false;          
         }); // end buttonc3 click 
-        $("#buttonc4").click(function(){
+        $("#buttonc4").on("click",function(){
           window.location.assign("draft1846Goodby.html?msgtype=0");
           return false;          
         }); // end buttonc4 click 
         
         
-        $("#button1").click(function(){
+        $("#button1").on("click",function(){
           processLastSelection();
           return false;          
         }); // end button1 click
-        $("#button2").click(function(){
+        $("#button2").on("click",function(){
           processPass();
           return false;          
         }); // end button2 click  
-        $("#button3").click(function(){
+        $("#button3").on("click",function(){
           processLastSelection();
           return false;          
         }); // end button3 click
-        $("#button4").click(function(){
+        $("#button4").on("click",function(){
           var tryagain = 'draft1846Last.php?draftid=';
           tryagain += D1846.input.draftid + '&playerid=';
           tryagain += D1846.input.playerid;
           window.location.assign(tryagain);
           return false;          
         }); // end button4 click
-        $("#button5").click(function(){
+        $("#button5").on("click",function(){
           window.location.assign("draft1846Goodby.html?msgtype=0");
           return false;          
         }); // end button5 click 

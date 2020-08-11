@@ -1,3 +1,6 @@
+release 1.0.7 - August 10, 2020
+Resolved Bug 178 - Upgrade jQuery to version 3.5.1
+
 release 1.0.6 - June 20, 2020
 Fixed misspelled link in email created by emailLast.php.
 Expanded error message in updtDraft.php.

@@ -25,7 +25,7 @@
  * json string in the database will have a "status" of "Active".
  */
 function updateCfrmResult(result) {
-  D1846.draft = jQuery.parseJSON(result);
+  D1846.draft = JSON.parse(result);
   var result = D1846.draft.return;
   if (result === 'fail') {
     var errmsg = 'Confirmation update failed.\n';

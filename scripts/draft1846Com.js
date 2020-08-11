@@ -47,7 +47,7 @@ function setPage()
  * events that occur within this time peroid 
  * will only trigger the setPage function once.
  */  
-$(window).resize(function() 
+$(window).on("resize", function()
 {
   if(this.resizeTO) clearTimeout(this.resizeTO);
   this.resizeTO = setTimeout(function() 
@@ -55,7 +55,7 @@ $(window).resize(function()
     $(this).trigger('resizeEnd');
   }, 200);
 });
-$(window).bind('resizeEnd', function() {
+$(window).on('resizeEnd', function() {
   setPage();
 });
 

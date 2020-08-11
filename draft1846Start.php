@@ -52,12 +52,12 @@ $myplayers = min($myplayer2, 5);
           $('#privates1').hide();
           $('#privates2').hide();
         }
-        $("#button1").click(function(){
+        $("#button1").on("click",function(){
           D1846.errtxt = "";
           SetupDraft();
           return false;          
         }); // end button1 click
-        $("#button2").click(function(){
+        $("#button2").on("click",function(){
           if (D1846.dbDone === true) {
             window.location.assign("draft1846Goodby.html?msgtype=1");
           } else {

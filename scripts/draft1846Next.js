@@ -23,7 +23,7 @@
  * array will be the json string from the specified table row.
  */
 function getDraftResult(result) {
-  D1846.draft = jQuery.parseJSON(result);
+  D1846.draft = JSON.parse(result);
   D1846.updtCount = D1846.draft.updtCount;
   var result = D1846.draft.return;
   if (result === 'fail') {

@@ -25,7 +25,7 @@ $playerid  = filter_input(INPUT_GET, 'playerid',FILTER_SANITIZE_NUMBER_INT);
     <link rel="stylesheet" href="style/draft1846Com.css" />
     <link rel="stylesheet" href="style/draft1846Cfrm.css" />
     <script type="text/javascript" src="scripts/jquery.js">
-    </script> 
+    </script>
     <script type="text/javascript" src="scripts/draft1846Com.js">
     </script> 
     <script type="text/javascript" src="scripts/draft1846Config.js">
