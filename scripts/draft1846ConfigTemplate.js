@@ -11,6 +11,5 @@
  * them from global variables in other packages. 
  */
 
-D1846.version = "0.0.0";
 D1846.adminName = "Admin Name";
 D1846.adminEmail = "Admin Email";

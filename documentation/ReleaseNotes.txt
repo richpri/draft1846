@@ -1,3 +1,8 @@
+release 1.0.8 - October 25, 2020
+Displayed release number on index.html page.
+Added players guide link to index.html page.
+Fixed some minor typos.
+
 release 1.0.7 - August 10, 2020
 Resolved Bug 178 - Upgrade jQuery to version 3.5.1
 
@@ -42,24 +47,3 @@ release 1.0.0 - May 19, 2020 - Status Production
 This release should be considered the first production release.
 It has been tested and all known issues have been addressed.
 
-release 0.2.2 - May 16, 2020 - Status Systems Test
-Finished coding the separation. 
-
-release 0.2.1 - May 16, 2020 - Status Systems Test
-I am part way through the process of separating draft1846Next into two sections.
-draft1846Next will no longer handle the price reduction phase of the draft.
-draft1846Last will take over when there is only one private left.
-* The max card select issue is tested.
-* Done email link issue is tested.
-
-release 0.2.0 - May 13, 2020 - Status Systems Test
-Current status of remaining bugs/enhancements for DRAFT1846    
-Level Page To Change      Description and Status
-Bug   draft1846Next.php   Handle special case of end of draft with one private.
-                          Fixed but not tested.
-Bug   draft1846Next.php   Adjust max card select number to match actual hand.
-                          Fixed but not tested.
-High  draft1846Cfrm.php   Show who has the current action if draft status is 'Active'.
-                          Already fixed and tested.
-High  draft1846Next.php   Done email should have link to Completed report.
-                          Fixed but not tested.

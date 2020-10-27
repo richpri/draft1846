@@ -22,6 +22,10 @@ A copy of this license can be found in the LICENSE.text file.
     <script>
       $(function() {
         $('.error').hide(); 
+        var vernumb = "This is version " + D1846.version + " of DRAFT1846.<br>";
+        vernumb += "<a href='https://wiki.board18.org/w/DRAFT1846_Player%27s_Guide'>";
+        vernumb += "This is a link to the DRAFT1846 Player's Guide.</a>";
+        $('#vers').html(vernumb);
         $("#button1").on("click",function(){
           var pnumb = $("#players").val();
           var start = "draft1846Start.php?players=";
@@ -48,10 +52,13 @@ A copy of this license can be found in the LICENSE.text file.
       <div id="content" style="padding-right: 20px">    
         <p style="font-size: 130%"><b>Welcome to DRAFT1846.</b>
         </p>
+        <p id="vers">
+          This is version x  of DRAFT1846.
+        </p>
         <p>DRAFT1846 is a utility for play by email 1846 games. 
           This utility mediates the private company draft phase of 1846. 
           It was written to be used with BOARD18 but it should be 
-          usable with any Play By Email game.         
+          usable with any Play By Email 1846 game.         
         </p>
         <p><b>DRAFT1846 uses 
           email messages to pass control from player to player.</b>

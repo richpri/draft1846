@@ -11,6 +11,8 @@
  * them from global variables in other packages. 
  */
 var D1846 = {}; // The master variable.
+D1846.version = "1.0.8";
+
 D1846.deck = [];
 D1846.hand = [];
 D1846.nlist = [];
